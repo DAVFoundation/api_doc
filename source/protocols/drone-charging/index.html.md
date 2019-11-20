@@ -1,10 +1,9 @@
 ---
-title: Drone Charging
+title: Vessel Charging
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
   - javascript
-  - python
+  - typescript
 
 toc_footers:
   - Documentation powered by <a href="https://github.com/lord/slate" target="blank">Slate</a>.
@@ -12,214 +11,98 @@ toc_footers:
 search: true
 ---
 
-<p class="header-image"><img src="/images/drone_charging/header.png" alt="Drone Charging"></p>
+<p class="header-image"><img src="/images/vessel_charging/header.png" alt="Vessel Charging"></p>
 
-# Drone Charging Protocol
+# Vessel Charging Protocol
 
-The following document describes the communication protocol for drone charging. It includes the format for both the request for a charging service sent by the drone (also referred to as `need`) and the response sent by a charging provider (`bid`).
+The communication protocol for vessel charging describes the format of a request for a charging service (`need`), and the response sent by a charging provider (`bid`).
 
-For example, a drone may look for a charging station that supports 2mm bullet connectors within 2 km of its current location.
+For example, an autonomous boat might search for charging stations within 2 km of the given coordinates that are capable of docking a 1200 kg boat.
 
-> Need
-
-```shell
-curl "discovery_endpoint_here" \
-  --data "{ \
-    \"start_at\": \"1513005534000\", \
-    \"latitude\": \"32.787793\", \
-    \"longitude\": \"-79.935005\", \
-    \"radius\": \"2000\", \
-    \"plug_type\": \"bullet_2mm\" \
-  }"
-```
-
-```javascript
-const discoveryEndPoint = 'discovery_endpoint_here';
-
-fetch(discoveryEndPoint, {
-  method: 'POST',
-  body: JSON.stringify({
-    start_at: '1513005534000',
-    latitude: '32.787793',
-    longitude: '-79.935005',
-    radius: '2000',
-    plug_type: 'bullet_2mm',
-  }),
-});
-```
-
-```python
-import requests
-payload = {
-    "start_at": "1519093577681",
-    "latitude": "32.787793",
-    "longitude": "-79.935005",
-    "radius": "2000",
-    "plug_type": "bullet_2mm",
-  }
-requests.post("discovery_endpoint_here", data=payload)
-```
-
-In response, a charging station might send back a bid with a price per kWh.
-
-> Bid
-
-```shell
-curl "bidding_endpoint_here" \
-  --data "{ \
-    \"need_id\": \"ae7bd8f67f3089c\", \
-    \"expires_at\": \"1513005539000\", \
-    \"price\": \"2300000000000000000,30000000000000000\", \
-    \"price_type\": \"kwh,kwh\", \
-    \"price_description\": \"Price per kWh,VAT per kWh\", \
-    \"latitude\": \"32.785889\", \
-    \"longitude\": \"-79.935569\", \
-    \"available_from\": \"1513005534000\", \
-    \"available_until\": \"1513091934000\" \
-  }"
-```
-
-```javascript
-const biddingEndPoint = 'bidding_endpoint_here';
-
-fetch(biddingEndPoint, {
-  method: 'POST',
-  body: JSON.stringify({
-    need_id: 'ae7bd8f67f3089c',
-    expires_at: '1513005539000',
-    price: '2300000000000000000,30000000000000000',
-    price_type: 'kwh,kwh',
-    price_description: 'Price per kWh,VAT per kWh',
-    latitude: '32.785889',
-    longitude: '-79.935569',
-    available_from: '1513005534000',
-    available_until: '1513091934000',
-  }),
-});
-```
-
-```python
-import requests
-payload = {
-    "need_id": "ae7bd8f67f3089c",
-    "expires_at": "1519093577681",
-    "price": "2300000000000000000,30000000000000000",
-    "price_type": "kwh,kwh",
-    "price_description": "Price per kWh,VAT per kWh",
-    "latitude": "32.785889",
-    "longitude": "-79.935569",
-    "available_from": "1513005534000",
-    "available_until": "1513091934000",
-  }
-requests.post("bidding_endpoint_here", data=payload)
-```
+In response, a charging station might send back a bid with a price for the service, the opening and closing times, and the full list of services it offers.
 
 # Need
 
-A statement of need for drone charging services. Typically this will be sent by a drone that is looking for a charging station around certain coordinates.
+A statement of need for charging services. Typically this will be sent by an electric boat that is looking for a charging station around certain coordinates.
 
-This request is sent to the decentralized discovery engine which responds with status `200` and a unique identifier for this request. The details of this request are then broadcasted to DAV entities that can provide this service. <a href="#bid">Bids</a> are later received as separate calls.
+This request is sent to the discovery engine which broadcasts the need to DAV identities that can provide this service. <a href="#bid">Bids</a> are later received in response.
 
 ## Arguments
 
-> Post request to a local/remote discovery endpoint
-
-```shell
-curl "discovery_endpoint_here" \
-  --data "{ \
-    \"start_at\": \"1513005534000\", \
-    \"latitude\": \"32.787793\", \
-    \"longitude\": \"-79.935005\", \
-    \"radius\": \"10000\", \
-    \"drone_type\": \"DXY M6000\", \
-    \"battery_capacity\": \"4500\", \
-    \"charge_level\": \"23\", \
-    \"plug_type\": \"bullet_4mm\", \
-    \"height\": \"50\", \
-    \"width\": \"30\", \
-    \"length\": \"30\", \
-    \"weight\": \"2500\", \
-    \"charge_pad_type\": \"enclosed\", \
-    \"droneport_protection_level\": \"56\" \
-    \"energy_source\": \"solar\" \
-  }"
-```
-
 ```javascript
-const discoveryEndPoint = "discovery_endpoint_here";
-
-fetch(discoveryEndPoint, {
-  method: "POST",
-  body: JSON.stringify({
-    "start_at": "1513005534000",
-    "latitude": "32.787793",
-    "longitude": "-79.935005",
-    "radius": "10000",
-    "drone_type": "DXY M6000",
-    "battery_capacity": "4500",
-    "charge_level": "23",
-    "plug_type": "bullet_4mm",
-    "height": "50",
-    "width": "30",
-    "length": "30",
-    "weight": "2500",
-    "charge_pad_type": "enclosed",
-    "droneport_protection_level": "56"
-    "energy_source": "solar",
-  })
+const { SDKFactory } = require("dav-js");
+const { NeedParams, enums } = require("dav-js/dist/vessel-charging");
+const DAV = SDKFactory({
+  apiSeedUrls,
+  kafkaSeedUrls
 });
+const boat = await DAV.getIdentity(boatDavId);
+
+const needParams = new NeedParams({
+  location: {
+    lat: 32.050382,
+    long: 34.766149
+  },
+  radius: 20,
+  startAt: 1538995253092,
+  dimensions: {
+    length: 50,
+    width: 15,
+    height: 20
+  },
+  weight: 50000,
+  batteryCapacity: 4,
+  currentBatteryCharge: 45,
+  energySource: enums.EnergySources.Solar,
+  amenities: [enums.Amenities.Docking]
+});
+const need = await boat.publishNeed(needParams);
 ```
 
-```python
-import requests
-payload = {
-    "start_at": "1513005534000",
-    "latitude": "32.787793",
-    "longitude": "-79.935005",
-    "radius": "10000",
-    "drone_type": "DXY M6000",
-    "battery_capacity": "4500",
-    "charge_level": "23",
-    "plug_type": "bullet_4mm",
-    "height": "50",
-    "width": "30",
-    "length": "30",
-    "weight": "2500",
-    "charge_pad_type": "enclosed",
-    "droneport_protection_level": "56"
-    "energy_source": "solar",
-  }
-requests.post("discovery_endpoint_here", data=payload)
+```typescript
+import { SDKFactory } from "dav-js";
+import { NeedParams, enums } from "dav-js/dist/vessel-charging";
+const DAV = SDKFactory({
+  apiSeedUrls,
+  kafkaSeedUrls
+});
+const boat = await DAV.getIdentity(boatDavId);
+
+const needParams = new NeedParams({
+  location: {
+    lat: 32.050382,
+    long: 34.766149
+  },
+  radius: 20,
+  startAt: 1538995253092,
+  dimensions: {
+    length: 50,
+    width: 15,
+    height: 20
+  },
+  weight: 50000,
+  batteryCapacity: 4,
+  currentBatteryCharge: 45,
+  energySource: enums.EnergySources.Solar,
+  amenities: [enums.Amenities.Docking]
+});
+const need = await boat.publishNeed(needParams);
 ```
 
 <table class="arguments">
   <tr>
     <td>
-      <code class="field">start_at</code>
-      <div class="type">optional</div>
-    </td>
-    <td>The time at which the requester would like to arrive at charging station (if undefined, the arrival time will be ASAP). Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">latitude</code>
+      <code class="field">location</code>
       <div class="type required">required</div>
     </td>
-    <td>The latitude coordinate around which to search</td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">longitude</code>
-      <div class="type required">required</div>
-    </td>
-    <td>The longitude coordinate around which to search</td>
+    <td>The coordinates around which to search</td>
   </tr>
   <tr>
     <td>
       <code class="field">radius</code>
       <div class="type required">required</div>
     </td>
-    <td>Radius in meters around the search coordinates to limit the search to. Specified as an integer</td>
+    <td>Radius in meters around the coordinates in which to listen for bids. Specified as an integer</td>
   </tr>
   <tr>
     <td>
@@ -228,55 +111,13 @@ requests.post("discovery_endpoint_here", data=payload)
     </td>
     <td>The manufacturer and/or the model number of the drone. An unformatted string</td>
   </tr>
-    <tr>
-    <td>
-      <code class="field">battery_capacity</code>
-      <div class="type">optional</div>
-    </td>
-    <td>The capacity of the drone's battery, specified in mAh</td>
-  </tr>
-      <tr>
-    <td>
-      <code class="field">charge_level</code>
-      <div class="type">optional</div>
-    </td>
-    <td>The drone's current battery charge level, as it was by the time the request was sent. Specified in %</td>
-  </tr>
   <tr>
-    <td>
-      <code class="field">plug_type</code>
-      <div class="type required">required</div>
-    </td>
-    <td>The drone's plug type ID. See <a href="#plug-types">Plug Types</a> for possible values</td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">height</code>
-      <div class="type">optional</div>
-    </td>
-    <td>The minimum height clearance that the drone requires from the charging station. Specified as an integer representing centimeters</td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">width</code>
-      <div class="type">optional</div>
-    </td>
-    <td>The minimum width clearance that the drone requires from the charging station. Specified as an integer representing centimeters</td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">length</code>
-      <div class="type">optional</div>
-    </td>
-    <td>The minimum length clearance that the drone requires from the charging station. Specified as an integer representing centimeters</td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">weight</code>
-      <div class="type">optional</div>
-    </td>
-    <td>The weight of the drone. Charging stations that cannot support a drone weighing this much should not respond. Specified as an integer representing grams</td>
-  </tr>
+      <td>
+        <code class="field">plug_types</code>
+        <div class="type required">required</div>
+      </td>
+      <td>The drone's plug type ID. See <a href="#plug-types">Plug Types</a> for possible values</td>
+    </tr>
   <tr>
     <td>
       <code class="field">charge_pad_type</code>
@@ -293,137 +134,217 @@ requests.post("discovery_endpoint_here", data=payload)
   </tr>
   <tr>
     <td>
-      <code class="field">energy_source</code>
+      <code class="field">startAt</code>
       <div class="type">optional</div>
     </td>
-    <td>Limit the request to only receive bids from charging stations using a specific source of the energy. Specified as an energy source id. See <a href="#energy-sources">Energy Sources</a></td>
+    <td>The time at which the requester would like to arrive at charger (if undefined, the arrival time will be ASAP). Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
+  </tr>
+  <tr>
+    <td>
+      <code class="field">dimensions</code>
+      <div class="type">optional</div>
+    </td>
+    <td>The minimum length, width, and height clearance that this vessel requires from the charger. Specified as an object containing integers representing centimeters</td>
+  </tr>
+  <tr>
+    <td>
+      <code class="field">weight</code>
+      <div class="type">optional</div>
+    </td>
+    <td>The weight of this vessel. Specified as an integer representing grams</td>
+  </tr>
+  <tr>
+    <td>
+      <code class="field">batteryCapacity</code>
+      <div class="type">optional</div>
+    </td>
+    <td>The vessel's total battery capacity, specified in kWh</td>
+  </tr>
+  <tr>
+    <td>
+      <code class="field">currentBatteryCharge</code>
+      <div class="type">optional</div>
+    </td>
+    <td>The vessel's current battery charge level, as it was at the time the request was sent. Specified as an integer denoting percentage of full capacity</td>
+  </tr>
+  <tr>
+    <td>
+      <code class="field">energySource</code>
+      <div class="type">optional</div>
+    </td>
+    <td>Limit the request to only receive bids from chargers using a specific source of energy. Specified as an energy source id. See <a href="#energy-sources">Energy Sources</a></td>
+  </tr>
+  <tr>
+    <td>
+      <code class="field">amenities</code>
+      <div class="type">optional</div>
+    </td>
+    <td>A list of amenities that need to be present at charging station. Specified as an array of amenity ids. See <a href="#amenities">Amenities</a></td>
   </tr>
 </table>
 
-# Bid
+# Need filter
 
-A bid to provide a charging service. Typically sent from a charging station to a drone.
+Begin listening for incoming needs that match certain requirements. Typically this will be a charging station subscribing to incoming needs from electric boats.
 
 ## Arguments
 
-> Post request to a local/remote bidding endpoint
-
-```shell
-curl "bidding_endpoint_here" \
-  --data "{ \
-    \"need_id\": \"ae7bd8f67f3089c\", \
-    \"expires_at\": \"1513005539000\", \
-    \"price\": \"2300000000000000000,30000000000000000\", \
-    \"price_type\": \"kwh,kwh\", \
-    \"price_description\": \"Price per kWh,VAT per kWh\", \
-    \"latitude\": \"32.785889\", \
-    \"longitude\": \"-79.935569\", \
-    \"available_from\": \"1513005534000\", \
-    \"available_until\": \"1513091934000\", \
-    \"location_name\": \"IKEA parking lot B\", \
-    \"location_name_lang\": \"eng\", \
-    \"location_house_number\": \"372\", \
-    \"location_street\": \"King\", \
-    \"location_city\": \"Charleston\", \
-    \"location_postal_code\": \"29401\", \
-    \"location_county\": \"Charleston\", \
-    \"location_state\": \"SC\", \
-    \"location_country\": \"USA\", \
-    \"height\": \"5000\", \
-    \"width\": \"1000\", \
-    \"length\": \"1000\", \
-    \"weight\": \"100000\", \
-    \"plug_types\": \"bullet_2mm,bullet_3_5mm,bullet_4mm\", \
-    \"energy_source\": \"solar\", \
-    \"provider\": \"City Charge\", \
-    \"manufacturer\": \"GeoCharge\", \
-    \"model\": \"gc2910\" \
-  }"
-```
-
 ```javascript
-const biddingEndPoint = 'bidding_endpoint_here';
-
-fetch(biddingEndPoint, {
-  method: 'POST',
-  body: JSON.stringify({
-    need_id: 'ae7bd8f67f3089c',
-    expires_at: '1513005539000',
-    price: '2300000000000000000,30000000000000000',
-    price_type: 'kwh,kwh',
-    price_description: 'Price per kWh,VAT per kWh',
-    latitude: '32.785889',
-    longitude: '-79.935569',
-    available_from: '1513005534000',
-    available_until: '1513091934000',
-    location_name: 'IKEA parking lot B',
-    location_name_lang: 'eng',
-    location_house_number: '372',
-    location_street: 'King',
-    location_city: 'Charleston',
-    location_postal_code: '29401',
-    location_county: 'Charleston',
-    location_state: 'SC',
-    location_country: 'USA',
-    height: '5000',
-    width: '1000',
-    length: '1000',
-    weight: '100000',
-    plug_types: 'bullet_2mm,bullet_3_5mm,bullet_4mm',
-    energy_source: 'solar',
-    provider: 'City Charge',
-    manufacturer: 'GeoCharge',
-    model: 'gc2910',
-  }),
+const { SDKFactory } = require("dav-js");
+const { NeedFilterParams } = require("dav-js/dist/vessel-charging");
+const DAV = SDKFactory({
+  apiSeedUrls,
+  kafkaSeedUrls
 });
+const charger = await DAV.getIdentity(chargerDavId);
+
+const needFilterParams = new NeedFilterParams({
+  location: {
+    lat: 32.050382,
+    long: 34.766149
+  },
+  radius: 1000,
+  maxDimensions: {
+    length: 120,
+    width: 80,
+    height: 100
+  }
+});
+const needs = await charger.needsForType(needFilterParams);
 ```
 
-```python
-import requests
-payload = {
-    "need_id": "ae7bd8f67f3089c",
-    "expires_at": "1513005539000",
-    "price": "2300000000000000000,30000000000000000",
-    "price_type": "kwh,kwh",
-    "price_description": "Price per kWh,VAT per kWh",
-    "latitude": "32.785889",
-    "longitude": "-79.935569",
-    "available_from": "1513005534000",
-    "available_until": "1513091934000",
-    "location_name": "IKEA parking lot B",
-    "location_name_lang": "eng",
-    "location_house_number": "372",
-    "location_street": "King",
-    "location_city": "Charleston",
-    "location_postal_code": "29401",
-    "location_county": "Charleston",
-    "location_state": "SC",
-    "location_country": "USA",
-    "height": "5000",
-    "width": "1000",
-    "length": "1000",
-    "weight": "100000",
-    "plug_types": "bullet_2mm,bullet_3_5mm,bullet_4mm",
-    "energy_source": "solar",
-    "provider": "City Charge",
-    "manufacturer": "GeoCharge",
-    "model": "gc2910",
+```typescript
+import { SDKFactory } from "dav-js";
+import { NeedFilterParams } from "dav-js/dist/vessel-charging";
+const DAV = SDKFactory({
+  apiSeedUrls,
+  kafkaSeedUrls
+});
+const charger = await DAV.getIdentity(chargerDavId);
+
+const needFilterParams = new NeedFilterParams({
+  location: {
+    lat: 32.050382,
+    long: 34.766149
+  },
+  radius: 1000,
+  maxDimensions: {
+    length: 120,
+    width: 80,
+    height: 100
   }
-requests.post("bidding_endpoint_here", data=payload)
+});
+const needs = await charger.needsForType(needFilterParams);
 ```
 
 <table class="arguments">
   <tr>
     <td>
-      <code class="field">need_id</code>
+      <code class="field">location</code>
       <div class="type required">required</div>
     </td>
-    <td>The unique identifier of the 'need' this bid is for. This ID arrives as part of the 'need' request</td>
+    <td>The coordinates around which to listen for bids</td>
   </tr>
   <tr>
     <td>
-      <code class="field">expires_at</code>
+      <code class="field">radius</code>
       <div class="type required">required</div>
+    </td>
+    <td>Radius in meters around the coordinates in which to listen for bids. Specified as an integer</td>
+  </tr>
+  <tr>
+    <td>
+      <code class="field">maxDimensions</code>
+      <div class="type">optional</div>
+    </td>
+    <td>The maximum length, width, and height clearance that this charger can accomodate. Specified as an object containing integers representing centimeters</td>
+</table>
+
+# Bid
+
+A bid to provide a charging service. Typically sent from a charger to an electric boat.
+
+## Arguments
+
+```javascript
+const { BidParams } = require('dav-js/dist/vessel-charging');
+
+needs.subscribe(need => {
+  const bidParams = new BidParams({
+    ttl: Date.now() + 3600000,
+    price: [
+      '15000000000000000000',
+      { amount: '1000000000000000000', type: 'flat', description: 'Tax' },
+    ],
+    entranceLocation: {
+      lat: 32.050382,
+      long: 34.766149,
+    },
+    exitLocation: {
+      lat: 32.050382,
+      long: 34.766149,
+    },
+    locationName: 'Marine Programs Naval Science'
+    locationNameLang: 'eng'
+    locationCity: 'Vallejo',
+    locationPostalCode: '94590',
+    locationCounty: 'Solano',
+    locationState: 'CA',
+    locationCountry: 'USA',
+    availableFrom: Date.now(),
+    availableUntil: Date.now() + 3600000,
+    energySource: EnergySources.Hydro,
+    amenities: [Amenities.Park],
+    provider: 'HoldenCharge',
+    manufacturer: 'Holden Tech LLC',
+    model: 'MegaBolt',
+  });
+  const bid = await need.createBid(bidParams);
+});
+```
+
+```typescript
+import { BidParams } from 'dav-js/dist/vessel-charging';
+
+needs.subscribe((need: Need<NeedParams>) => {
+  const bidParams = new BidParams({
+    ttl: Date.now() + 3600000,
+    price: [
+      '15000000000000000000',
+      { amount: '1000000000000000000', type: 'flat', description: 'Tax' },
+    ],
+    entranceLocation: {
+      lat: 32.050382,
+      long: 34.766149,
+    },
+    exitLocation: {
+      lat: 32.050382,
+      long: 34.766149,
+    },
+    locationName: 'Marine Programs Naval Science'
+    locationNameLang: 'eng'
+    locationCity: 'Vallejo',
+    locationPostalCode: '94590',
+    locationCounty: 'Solano',
+    locationState: 'CA',
+    locationCountry: 'USA',
+    availableFrom: Date.now(),
+    availableUntil: Date.now() + 3600000,
+    energySource: EnergySources.Hydro,
+    amenities: [Amenities.Park],
+    provider: 'HoldenCharge',
+    manufacturer: 'Holden Tech LLC',
+    model: 'MegaBolt',
+  });
+  const bid = await need.createBid(bidParams);
+});
+```
+
+<table class="arguments">
+  <tr>
+    <td>
+      <code class="field">ttl</code>
+      <div class="type">optional</div>
     </td>
     <td>This bid will expire at this time. Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
   </tr>
@@ -432,176 +353,361 @@ requests.post("bidding_endpoint_here", data=payload)
       <code class="field">price</code>
       <div class="type required">required</div>
     </td>
-    <td>A comma separated list of prices. Each price is specified as an integer representing Vinci
+    <td>A single price or an array containing prices. If an array is given, all the prices will be charged (e.g., a price per kWh plus a flat rate tax). Each price is specified as either an string representing Vinci, or a price object containing amount, <a href="#price-types">price type</a>, and an optional description
     <br>1 DAV == 1e18 Vinci == 1000000000000000000 Vinci</td>
   </tr>
   <tr>
     <td>
-      <code class="field">price_type</code>
-      <div class="type required">required</div>
-    </td>
-    <td>A list of price types describing the <code>price</code> parameter(s). Specified as a comma separated list. See <a href="#price-types">Price Types</a> for available values</td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">price_description</code>
-      <div class="type required">required</div>
-    </td>
-    <td>A comma separated list of strings describing the <code>price</code> parameter(s) in human readable terms</td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">latitude</code>
-      <div class="type required">required</div>
-    </td>
-    <td>The latitude coordinate of the charging station</td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">longitude</code>
-      <div class="type required">required</div>
-    </td>
-    <td>The longitude coordinate of the charging station</td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">available_from</code>
-      <div class="type required">required</div>
-    </td>
-    <td>The time from which the charging station can be made available. Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">available_until</code>
+      <code class="field">entranceLocation</code>
       <div class="type">optional</div>
     </td>
-    <td>The time until which the charging station can be made available. Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
+    <td>The coordinates of the charger entrance</td>
   </tr>
   <tr>
     <td>
-      <code class="field">location_name</code>
+      <code class="field">exitLocation</code>
       <div class="type">optional</div>
     </td>
-    <td>A human readable name/description of the charging station location (e.g., Lund Train Station parking)</td>
+    <td>The coordinates of the exit from to the charger</td>
   </tr>
   <tr>
     <td>
-      <code class="field">location_name_lang</code>
+      <code class="field">locationName</code>
+      <div class="type">optional</div>
+    </td>
+    <td>A human readable name/description of the charger location (e.g., Cal Maritime Dock C)</td>
+  </tr>
+  <tr>
+    <td>
+      <code class="field">locationNameLang</code>
       <div class="type">optional</div>
     </td>
     <td>The language used in <code>location_name</code>. Specified using the 3 letter <a href="https://en.wikipedia.org/wiki/ISO_639-3" target="blank">ISO 639-3</a> language code</td>
   </tr>
   <tr>
     <td>
-      <code class="field">location_house_number</code>
+      <code class="field">locationHouseNumber</code>
       <div class="type">optional</div>
     </td>
     <td>The house number where the station is located</td>
   </tr>
   <tr>
     <td>
-      <code class="field">location_street</code>
+      <code class="field">locationStreet</code>
       <div class="type">optional</div>
     </td>
     <td>The street name where the station is located</td>
   </tr>
   <tr>
     <td>
-      <code class="field">location_city</code>
+      <code class="field">locationCity</code>
       <div class="type">optional</div>
     </td>
     <td>The city where the station is located</td>
   </tr>
   <tr>
     <td>
-      <code class="field">location_postal_code</code>
+      <code class="field">locationPostalCode</code>
       <div class="type">optional</div>
     </td>
     <td>The postal code where the station is located</td>
   </tr>
   <tr>
     <td>
-      <code class="field">location_county</code>
+      <code class="field">locationCounty</code>
       <div class="type">optional</div>
     </td>
-    <td>The county where the station is located</td>
+    <td>The county where the charger is located</td>
   </tr>
   <tr>
     <td>
-      <code class="field">location_state</code>
+      <code class="field">locationState</code>
       <div class="type">optional</div>
     </td>
-    <td>The state where the station is located</td>
+    <td>The state where the charger is located</td>
   </tr>
   <tr>
     <td>
-      <code class="field">location_country</code>
+      <code class="field">locationCountry</code>
       <div class="type">optional</div>
     </td>
-    <td>The country where the station is located</td>
+    <td>The country where the charger is located</td>
   </tr>
   <tr>
     <td>
-      <code class="field">height</code>
-      <div class="type">optional</div>
+      <code class="field">availableFrom</code>
+      <div class="type required">required</div>
     </td>
-    <td>The maximum drone height this station can accommodate. Specified as an integer representing centimeters</td>
+    <td>The time from which the charger can be made available for the vessel requesting a charge. Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
   </tr>
   <tr>
     <td>
-      <code class="field">width</code>
+      <code class="field">availableUntil</code>
       <div class="type">optional</div>
     </td>
-    <td>The maximum drone width this station can accommodate. Specified as an integer representing centimeters</td>
+    <td>The time until which the charger can be made available for the vessel requesting a charge. Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
   </tr>
   <tr>
     <td>
-      <code class="field">length</code>
+      <code class="field">energySource</code>
       <div class="type">optional</div>
     </td>
-    <td>The maximum drone length this station can accommodate. Specified as an integer representing centimeters</td>
+    <td>The source of the energy used by this charger. Specified as an energy source id. See <a href="#energy-sources">Energy Sources</a></td>
   </tr>
   <tr>
     <td>
-      <code class="field">weight</code>
+      <code class="field">amenities</code>
       <div class="type">optional</div>
     </td>
-    <td>The maximum drone weight this station can accommodate. Specified as an integer representing grams</td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">plug_types</code>
-      <div class="type">required</div>
-    </td>
-    <td>A list of plug types available at this charging station. Specified as a comma separated list of plug type ids. See <a href="#plug-types">Plug Types</a> for available values</td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">energy_source</code>
-      <div class="type">optional</div>
-    </td>
-    <td>The source of the energy used by this charging station. Specified as an energy source id. See <a href="#energy-sources">Energy Sources</a></td>
+    <td>A list of amenities that are present at this charger. Specified as an array of amenity ids. See <a href="#amenities">Amenities</a></td>
   </tr>
   <tr>
     <td>
       <code class="field">provider</code>
       <div class="type">optional</div>
     </td>
-    <td>Name of the service provider or charging network operating this charging station</td>
+    <td>Name of the service provider or charging network operating this charger</td>
+  </tr>
+  <tr>
+      <td>
+        <code class="field">plug_types</code>
+        <div class="type required">required</div>
+      </td>
+      <td>The drone's plug type ID. See <a href="#plug-types">Plug Types</a> for possible values</td>
+    </tr>
+  <tr>
+    <td>
+      <code class="field">charge_pad_type</code>
+      <div class="type">optional</div>
+    </td>
+    <td>The type of charging pad. Accepted values can be either <code>open</code> (for an outdoor pad) or <code>enclosed</code> (for an enclosed charging pad)</td>
+  </tr>
+  <tr>
+    <td>
+      <code class="field">droneport_protection_level</code>
+      <div class="type">optional</div>
+    </td>
+    <td>Charging stations may also provide protection services for drones. This parameter specifies the level of protection given to a drone. See possible codes under <a href="#drone-protection-level">Drone Protection Level</a></td>
   </tr>
   <tr>
     <td>
       <code class="field">manufacturer</code>
       <div class="type">optional</div>
     </td>
-    <td>Name of the manufacturer of this charging station</td>
+    <td>Name of the manufacturer of this charger</td>
   </tr>
   <tr>
     <td>
       <code class="field">model</code>
       <div class="type">optional</div>
     </td>
-    <td>Name of the model of this charging station</td>
+    <td>Name of the model of this charger</td>
+  </tr>
+</table>
+
+# Starting
+
+A message sent by the service provider (the charger) to the service requester, notifying it that the mission has started
+
+## Arguments
+
+```javascript
+const { StartingMessageParams } = require("dav-js/dist/vessel-charging");
+
+const startingMessage = new StartingMessageParams();
+mission.sendMessage(startingMessage);
+```
+
+```typescript
+import { StartingMessageParams } from "dav-js/dist/vessel-charging";
+
+const startingMessageParams = new StartingMessageParams();
+mission.sendMessage(startingMessage);
+```
+
+<table class="arguments">
+  <tr>
+    <td>None</td>
+  </tr>
+</table>
+
+# Request Status
+
+A request message sent by either party, asking the other party for a status update
+
+## Arguments
+
+```javascript
+const { StatusRequestMessageParams } = require("dav-js/dist/vessel-charging");
+
+const statusRequestMessage = new StatusRequestMessageParams({});
+mission.sendMessage(statusRequestMessage);
+```
+
+```typescript
+import { StatusRequestMessageParams } from "dav-js/dist/vessel-charging";
+
+const statusRequestMessage = new StatusRequestMessageParams({});
+mission.sendMessage(statusRequestMessage);
+```
+
+<table class="arguments">
+  <tr>
+    <td>None</td>
+  </tr>
+</table>
+
+# Provider Status
+
+A status update sent by the service provider (usually a charging station) to the vessel
+
+## Arguments
+
+```javascript
+const { ProviderStatusMessageParams } = require("dav-js/dist/vessel-charging");
+
+const providerStatusMessage = new ProviderStatusMessageParams({
+  chargeCompletionEstimatedTime: Date.now() + 5000
+});
+mission.sendMessage(providerStatusMessage);
+```
+
+```typescript
+import { ProviderStatusMessageParams } from "dav-js/dist/vessel-charging";
+
+const providerStatusMessage = new ProviderStatusMessageParams({
+  chargeCompletionEstimatedTime: Date.now() + 5000
+});
+mission.sendMessage(providerStatusMessage);
+```
+
+<table class="arguments">
+  <tr>
+    <td>
+      <code class="field">chargeCompletionEstimatedTime</code>
+      <div class="type">optional</div>
+    </td>
+    <td>The estimated time at which charging will be complete. Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
+  </tr>
+</table>
+
+# Vessel Status
+
+A status update sent by the service requester (the vessel) to the service provider (charger)
+
+## Arguments
+
+```javascript
+const { VesselStatusMessageParams } = require("dav-js/dist/vessel-charging");
+
+const vesselStatusMessage = new VesselStatusMessageParams({
+  location: {
+    lat: 32.050382,
+    long: 34.766149
+  }
+});
+mission.sendMessage(vesselStatusMessage);
+```
+
+```typescript
+import { VesselStatusMessageParams } from "dav-js/dist/vessel-charging";
+
+const vesselStatusMessage = new VesselStatusMessageParams({
+  location: {
+    lat: 32.050382,
+    long: 34.766149
+  }
+});
+mission.sendMessage(vesselStatusMessage);
+```
+
+<table class="arguments">
+  <tr>
+    <td>
+      <code class="field">location</code>
+      <div class="type">optional</div>
+    </td>
+    <td>The current coordinates of the vehicle's location</td>
+  </tr>
+</table>
+
+# Charging Arrival
+
+A message sent by the service requester (the vessel) to the service provider (charger), notifying it that it has arrived at the charger's location
+
+## Arguments
+
+```javascript
+const { ChargingArrivalMessageParams } = require("dav-js/dist/vessel-charging");
+
+const chargingArrivalMessage = new ChargingArrivalMessageParams();
+mission.sendMessage(chargingArrivalMessage);
+```
+
+```typescript
+import { ChargingArrivalMessageParams } from "dav-js/dist/vessel-charging";
+
+const chargingArrivalMessage = new ChargingArrivalMessageParams();
+mission.sendMessage(chargingArrivalMessage);
+```
+
+<table class="arguments">
+  <tr>
+    <td>None</td>
+  </tr>
+</table>
+
+# Charging Started
+
+A message sent by the service provider to the service requester, notifying it that charging has begun
+
+## Arguments
+
+```typescript
+import { ChargingStartedMessageParams } from "dav-js/dist/vessel-charging";
+
+const chargingStartedMessage = new ChargingStartedMessageParams();
+mission.sendMessage(chargingStartedMessage);
+```
+
+```javascript
+const { ChargingStartedMessageParams } = require("dav-js/dist/vessel-charging");
+
+const chargingStartedMessage = new ChargingStartedMessageParams();
+mission.sendMessage(chargingStartedMessage);
+```
+
+<table class="arguments">
+  <tr>
+    <td>None</td>
+  </tr>
+</table>
+
+# Charging Complete
+
+A message sent by the service provider to the service requester, notifying it that charging has completed
+
+## Arguments
+
+```javascript
+const {
+  ChargingCompleteMessageParams
+} = require("dav-js/dist/vessel-charging");
+
+const chargingCompleteMessage = new ChargingCompleteMessageParams();
+mission.sendMessage(chargingCompleteMessage);
+```
+
+```typescript
+import { ChargingCompleteMessageParams } from "dav-js/dist/vessel-charging";
+
+const chargingCompleteMessage = new ChargingCompleteMessageParams();
+mission.sendMessage(chargingCompleteMessage);
+```
+
+<table class="arguments">
+  <tr>
+    <td>None</td>
   </tr>
 </table>
 
@@ -808,6 +914,49 @@ For a full listing of all available codes, read more about <a href="https://en.w
     <td>IP69K</td>
     <td>Protected from total dust ingress</td>
     <td>Protected from steam-jet cleaning, limited ingress protection</td>
+  </tr>
+</table>
+
+# Amenities
+
+A list of amenities can be included in both requests and responses.
+
+<table class="reference">
+  <tr>
+    <th>ID</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>1</code></td>
+    <td>Lodging</td>
+  </tr>
+  <tr>
+    <td><code>2</code></td>
+    <td>Dining</td>
+  </tr>
+  <tr>
+    <td><code>3</code></td>
+    <td>Restrooms</td>
+  </tr>
+  <tr>
+    <td><code>4</code></td>
+    <td>Docking</td>
+  </tr>
+  <tr>
+    <td><code>5</code></td>
+    <td>Park</td>
+  </tr>
+  <tr>
+    <td><code>6</code></td>
+    <td>WiFi</td>
+  </tr>
+  <tr>
+    <td><code>7</code></td>
+    <td>Shopping</td>
+  </tr>
+  <tr>
+    <td><code>8</code></td>
+    <td>Grocery</td>
   </tr>
 </table>
 

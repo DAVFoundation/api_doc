@@ -1,5 +1,5 @@
 ---
-title: Vessel Charging
+title: Drone Charging
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - javascript
@@ -11,19 +11,19 @@ toc_footers:
 search: true
 ---
 
-<p class="header-image"><img src="/images/vessel_charging/header.png" alt="Vessel Charging"></p>
+<p class="header-image"><img src="/images/drone_charging/header.png" alt="Drone Charging"></p>
 
-# Vessel Charging Protocol
+# Drone Charging Protocol
 
-The communication protocol for vessel charging describes the format of a request for a charging service (`need`), and the response sent by a charging provider (`bid`).
+The communication protocol for drone charging describes the format of a request for a charging service (`need`), and the response sent by a charging provider (`bid`).
 
-For example, an autonomous boat might search for charging stations within 2 km of the given coordinates that are capable of docking a 1200 kg boat.
+For example, an autonomous drone might search for charging stations within 2 km of the given coordinates that are capable of docking a 1200 kg drone.
 
 In response, a charging station might send back a bid with a price for the service, the opening and closing times, and the full list of services it offers.
 
 # Need
 
-A statement of need for charging services. Typically this will be sent by an electric boat that is looking for a charging station around certain coordinates.
+A statement of need for charging services. Typically this will be sent by an drone that is looking for a charging station around certain coordinates.
 
 This request is sent to the discovery engine which broadcasts the need to DAV identities that can provide this service. <a href="#bid">Bids</a> are later received in response.
 
@@ -31,12 +31,12 @@ This request is sent to the discovery engine which broadcasts the need to DAV id
 
 ```javascript
 const { SDKFactory } = require("dav-js");
-const { NeedParams, enums } = require("dav-js/dist/vessel-charging");
+const { NeedParams, enums } = require("dav-js/dist/drone-charging");
 const DAV = SDKFactory({
   apiSeedUrls,
   kafkaSeedUrls
 });
-const boat = await DAV.getIdentity(boatDavId);
+const drone = await DAV.getIdentity(droneDavId);
 
 const needParams = new NeedParams({
   location: {
@@ -56,17 +56,17 @@ const needParams = new NeedParams({
   energySource: enums.EnergySources.Solar,
   amenities: [enums.Amenities.Docking]
 });
-const need = await boat.publishNeed(needParams);
+const need = await drone.publishNeed(needParams);
 ```
 
 ```typescript
 import { SDKFactory } from "dav-js";
-import { NeedParams, enums } from "dav-js/dist/vessel-charging";
+import { NeedParams, enums } from "dav-js/dist/drone-charging";
 const DAV = SDKFactory({
   apiSeedUrls,
   kafkaSeedUrls
 });
-const boat = await DAV.getIdentity(boatDavId);
+const drone = await DAV.getIdentity(droneDavId);
 
 const needParams = new NeedParams({
   location: {
@@ -86,7 +86,7 @@ const needParams = new NeedParams({
   energySource: enums.EnergySources.Solar,
   amenities: [enums.Amenities.Docking]
 });
-const need = await boat.publishNeed(needParams);
+const need = await drone.publishNeed(needParams);
 ```
 
 <table class="arguments">
@@ -144,28 +144,28 @@ const need = await boat.publishNeed(needParams);
       <code class="field">dimensions</code>
       <div class="type">optional</div>
     </td>
-    <td>The minimum length, width, and height clearance that this vessel requires from the charger. Specified as an object containing integers representing centimeters</td>
+    <td>The minimum length, width, and height clearance that this drone requires from the charger. Specified as an object containing integers representing centimeters</td>
   </tr>
   <tr>
     <td>
       <code class="field">weight</code>
       <div class="type">optional</div>
     </td>
-    <td>The weight of this vessel. Specified as an integer representing grams</td>
+    <td>The weight of this drone. Specified as an integer representing grams</td>
   </tr>
   <tr>
     <td>
       <code class="field">batteryCapacity</code>
       <div class="type">optional</div>
     </td>
-    <td>The vessel's total battery capacity, specified in kWh</td>
+    <td>The drone's total battery capacity, specified in kWh</td>
   </tr>
   <tr>
     <td>
       <code class="field">currentBatteryCharge</code>
       <div class="type">optional</div>
     </td>
-    <td>The vessel's current battery charge level, as it was at the time the request was sent. Specified as an integer denoting percentage of full capacity</td>
+    <td>The drone's current battery charge level, as it was at the time the request was sent. Specified as an integer denoting percentage of full capacity</td>
   </tr>
   <tr>
     <td>
@@ -185,13 +185,13 @@ const need = await boat.publishNeed(needParams);
 
 # Need filter
 
-Begin listening for incoming needs that match certain requirements. Typically this will be a charging station subscribing to incoming needs from electric boats.
+Begin listening for incoming needs that match certain requirements. Typically this will be a charging station subscribing to incoming needs from electric drones.
 
 ## Arguments
 
 ```javascript
 const { SDKFactory } = require("dav-js");
-const { NeedFilterParams } = require("dav-js/dist/vessel-charging");
+const { NeedFilterParams } = require("dav-js/dist/drone-charging");
 const DAV = SDKFactory({
   apiSeedUrls,
   kafkaSeedUrls
@@ -215,7 +215,7 @@ const needs = await charger.needsForType(needFilterParams);
 
 ```typescript
 import { SDKFactory } from "dav-js";
-import { NeedFilterParams } from "dav-js/dist/vessel-charging";
+import { NeedFilterParams } from "dav-js/dist/drone-charging";
 const DAV = SDKFactory({
   apiSeedUrls,
   kafkaSeedUrls
@@ -262,12 +262,12 @@ const needs = await charger.needsForType(needFilterParams);
 
 # Bid
 
-A bid to provide a charging service. Typically sent from a charger to an electric boat.
+A bid to provide a charging service. Typically sent from a charger to an electric drone.
 
 ## Arguments
 
 ```javascript
-const { BidParams } = require('dav-js/dist/vessel-charging');
+const { BidParams } = require('dav-js/dist/drone-charging');
 
 needs.subscribe(need => {
   const bidParams = new BidParams({
@@ -304,7 +304,7 @@ needs.subscribe(need => {
 ```
 
 ```typescript
-import { BidParams } from 'dav-js/dist/vessel-charging';
+import { BidParams } from 'dav-js/dist/drone-charging';
 
 needs.subscribe((need: Need<NeedParams>) => {
   const bidParams = new BidParams({
@@ -438,14 +438,14 @@ needs.subscribe((need: Need<NeedParams>) => {
       <code class="field">availableFrom</code>
       <div class="type required">required</div>
     </td>
-    <td>The time from which the charger can be made available for the vessel requesting a charge. Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
+    <td>The time from which the charger can be made available for the drone requesting a charge. Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
   </tr>
   <tr>
     <td>
       <code class="field">availableUntil</code>
       <div class="type">optional</div>
     </td>
-    <td>The time until which the charger can be made available for the vessel requesting a charge. Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
+    <td>The time until which the charger can be made available for the drone requesting a charge. Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
   </tr>
   <tr>
     <td>
@@ -512,14 +512,14 @@ A message sent by the service provider (the charger) to the service requester, n
 ## Arguments
 
 ```javascript
-const { StartingMessageParams } = require("dav-js/dist/vessel-charging");
+const { StartingMessageParams } = require("dav-js/dist/drone-charging");
 
 const startingMessage = new StartingMessageParams();
 mission.sendMessage(startingMessage);
 ```
 
 ```typescript
-import { StartingMessageParams } from "dav-js/dist/vessel-charging";
+import { StartingMessageParams } from "dav-js/dist/drone-charging";
 
 const startingMessageParams = new StartingMessageParams();
 mission.sendMessage(startingMessage);
@@ -538,14 +538,14 @@ A request message sent by either party, asking the other party for a status upda
 ## Arguments
 
 ```javascript
-const { StatusRequestMessageParams } = require("dav-js/dist/vessel-charging");
+const { StatusRequestMessageParams } = require("dav-js/dist/drone-charging");
 
 const statusRequestMessage = new StatusRequestMessageParams({});
 mission.sendMessage(statusRequestMessage);
 ```
 
 ```typescript
-import { StatusRequestMessageParams } from "dav-js/dist/vessel-charging";
+import { StatusRequestMessageParams } from "dav-js/dist/drone-charging";
 
 const statusRequestMessage = new StatusRequestMessageParams({});
 mission.sendMessage(statusRequestMessage);
@@ -559,12 +559,12 @@ mission.sendMessage(statusRequestMessage);
 
 # Provider Status
 
-A status update sent by the service provider (usually a charging station) to the vessel
+A status update sent by the service provider (usually a charging station) to the drone
 
 ## Arguments
 
 ```javascript
-const { ProviderStatusMessageParams } = require("dav-js/dist/vessel-charging");
+const { ProviderStatusMessageParams } = require("dav-js/dist/drone-charging");
 
 const providerStatusMessage = new ProviderStatusMessageParams({
   chargeCompletionEstimatedTime: Date.now() + 5000
@@ -573,7 +573,7 @@ mission.sendMessage(providerStatusMessage);
 ```
 
 ```typescript
-import { ProviderStatusMessageParams } from "dav-js/dist/vessel-charging";
+import { ProviderStatusMessageParams } from "dav-js/dist/drone-charging";
 
 const providerStatusMessage = new ProviderStatusMessageParams({
   chargeCompletionEstimatedTime: Date.now() + 5000
@@ -591,34 +591,34 @@ mission.sendMessage(providerStatusMessage);
   </tr>
 </table>
 
-# Vessel Status
+# Drone Status
 
-A status update sent by the service requester (the vessel) to the service provider (charger)
+A status update sent by the service requester (the drone) to the service provider (charger)
 
 ## Arguments
 
 ```javascript
-const { VesselStatusMessageParams } = require("dav-js/dist/vessel-charging");
+const { DroneStatusMessageParams } = require("dav-js/dist/drone-charging");
 
-const vesselStatusMessage = new VesselStatusMessageParams({
+const droneStatusMessage = new DroneStatusMessageParams({
   location: {
     lat: 32.050382,
     long: 34.766149
   }
 });
-mission.sendMessage(vesselStatusMessage);
+mission.sendMessage(droneStatusMessage);
 ```
 
 ```typescript
-import { VesselStatusMessageParams } from "dav-js/dist/vessel-charging";
+import { DroneStatusMessageParams } from "dav-js/dist/drone-charging";
 
-const vesselStatusMessage = new VesselStatusMessageParams({
+const droneStatusMessage = new DroneStatusMessageParams({
   location: {
     lat: 32.050382,
     long: 34.766149
   }
 });
-mission.sendMessage(vesselStatusMessage);
+mission.sendMessage(droneStatusMessage);
 ```
 
 <table class="arguments">
@@ -633,19 +633,19 @@ mission.sendMessage(vesselStatusMessage);
 
 # Charging Arrival
 
-A message sent by the service requester (the vessel) to the service provider (charger), notifying it that it has arrived at the charger's location
+A message sent by the service requester (the drone) to the service provider (charger), notifying it that it has arrived at the charger's location
 
 ## Arguments
 
 ```javascript
-const { ChargingArrivalMessageParams } = require("dav-js/dist/vessel-charging");
+const { ChargingArrivalMessageParams } = require("dav-js/dist/drone-charging");
 
 const chargingArrivalMessage = new ChargingArrivalMessageParams();
 mission.sendMessage(chargingArrivalMessage);
 ```
 
 ```typescript
-import { ChargingArrivalMessageParams } from "dav-js/dist/vessel-charging";
+import { ChargingArrivalMessageParams } from "dav-js/dist/drone-charging";
 
 const chargingArrivalMessage = new ChargingArrivalMessageParams();
 mission.sendMessage(chargingArrivalMessage);
@@ -664,14 +664,14 @@ A message sent by the service provider to the service requester, notifying it th
 ## Arguments
 
 ```typescript
-import { ChargingStartedMessageParams } from "dav-js/dist/vessel-charging";
+import { ChargingStartedMessageParams } from "dav-js/dist/drone-charging";
 
 const chargingStartedMessage = new ChargingStartedMessageParams();
 mission.sendMessage(chargingStartedMessage);
 ```
 
 ```javascript
-const { ChargingStartedMessageParams } = require("dav-js/dist/vessel-charging");
+const { ChargingStartedMessageParams } = require("dav-js/dist/drone-charging");
 
 const chargingStartedMessage = new ChargingStartedMessageParams();
 mission.sendMessage(chargingStartedMessage);
@@ -690,16 +690,14 @@ A message sent by the service provider to the service requester, notifying it th
 ## Arguments
 
 ```javascript
-const {
-  ChargingCompleteMessageParams
-} = require("dav-js/dist/vessel-charging");
+const { ChargingCompleteMessageParams } = require("dav-js/dist/drone-charging");
 
 const chargingCompleteMessage = new ChargingCompleteMessageParams();
 mission.sendMessage(chargingCompleteMessage);
 ```
 
 ```typescript
-import { ChargingCompleteMessageParams } from "dav-js/dist/vessel-charging";
+import { ChargingCompleteMessageParams } from "dav-js/dist/drone-charging";
 
 const chargingCompleteMessage = new ChargingCompleteMessageParams();
 mission.sendMessage(chargingCompleteMessage);

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Drone Charging</title>
+    <title>Vessel Charging</title>
     <link rel="icon" type="image/png" sizes="192x192"  href="../../images/favicon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon.png">
     <link rel="icon" type="image/png" sizes="96x96" href="../../images/favicon.png">
@@ -205,7 +205,7 @@
       <script src="../../javascripts/all.js"></script>
   </head>
 
-  <body class="protocols protocols_drone-charging protocols_drone-charging_index" data-languages="[&quot;shell&quot;,&quot;javascript&quot;,&quot;python&quot;]">
+  <body class="protocols protocols_drone-charging protocols_drone-charging_index" data-languages="[&quot;javascript&quot;,&quot;typescript&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -215,9 +215,8 @@
     <div class="toc-wrapper">
       <a href="/"><img src="../../images/logo.png" class="logo" alt="Logo" /></a>
         <div class="lang-selector">
-              <a href="#" data-language-name="shell">shell</a>
               <a href="#" data-language-name="javascript">javascript</a>
-              <a href="#" data-language-name="python">python</a>
+              <a href="#" data-language-name="typescript">typescript</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -225,7 +224,7 @@
         <ul class="search-results"></ul>
       <div id="toc" class="toc-list-h1">
           <li>
-            <a href="#drone-charging-protocol" class="toc-h1 toc-link" data-title="Drone Charging Protocol">Drone Charging Protocol</a>
+            <a href="#vessel-charging-protocol" class="toc-h1 toc-link" data-title="Vessel Charging Protocol">Vessel Charging Protocol</a>
           </li>
           <li>
             <a href="#need" class="toc-h1 toc-link" data-title="Need">Need</a>
@@ -236,10 +235,74 @@
               </ul>
           </li>
           <li>
-            <a href="#bid" class="toc-h1 toc-link" data-title="Bid">Bid</a>
+            <a href="#need-filter" class="toc-h1 toc-link" data-title="Need filter">Need filter</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#arguments-2" class="toc-h2 toc-link" data-title="Arguments">Arguments</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#bid" class="toc-h1 toc-link" data-title="Bid">Bid</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#arguments-3" class="toc-h2 toc-link" data-title="Arguments">Arguments</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#starting" class="toc-h1 toc-link" data-title="Starting">Starting</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#arguments-4" class="toc-h2 toc-link" data-title="Arguments">Arguments</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#request-status" class="toc-h1 toc-link" data-title="Request Status">Request Status</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#arguments-5" class="toc-h2 toc-link" data-title="Arguments">Arguments</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#provider-status" class="toc-h1 toc-link" data-title="Provider Status">Provider Status</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#arguments-6" class="toc-h2 toc-link" data-title="Arguments">Arguments</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#vessel-status" class="toc-h1 toc-link" data-title="Vessel Status">Vessel Status</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#arguments-7" class="toc-h2 toc-link" data-title="Arguments">Arguments</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#charging-arrival" class="toc-h1 toc-link" data-title="Charging Arrival">Charging Arrival</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#arguments-8" class="toc-h2 toc-link" data-title="Arguments">Arguments</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#charging-started" class="toc-h1 toc-link" data-title="Charging Started">Charging Started</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#arguments-9" class="toc-h2 toc-link" data-title="Arguments">Arguments</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#charging-complete" class="toc-h1 toc-link" data-title="Charging Complete">Charging Complete</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#arguments-10" class="toc-h2 toc-link" data-title="Arguments">Arguments</a>
                   </li>
               </ul>
           </li>
@@ -253,6 +316,9 @@
             <a href="#drone-protection-level" class="toc-h1 toc-link" data-title="Drone Protection Level">Drone Protection Level</a>
           </li>
           <li>
+            <a href="#amenities" class="toc-h1 toc-link" data-title="Amenities">Amenities</a>
+          </li>
+          <li>
             <a href="#price-types" class="toc-h1 toc-link" data-title="Price Types">Price Types</a>
           </li>
       </div>
@@ -263,187 +329,86 @@
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <p class="header-image"><img src="../../images/drone_charging/header.png" alt="Drone Charging"></p>
-<h1 id='drone-charging-protocol'>Drone Charging Protocol</h1>
-<p>The following document describes the communication protocol for drone charging. It includes the format for both the request for a charging service sent by the drone (also referred to as <code>need</code>) and the response sent by a charging provider (<code>bid</code>).</p>
+        <p class="header-image"><img src="../../images/vessel_charging/header.png" alt="Vessel Charging"></p>
+<h1 id='vessel-charging-protocol'>Vessel Charging Protocol</h1>
+<p>The communication protocol for vessel charging describes the format of a request for a charging service (<code>need</code>), and the response sent by a charging provider (<code>bid</code>).</p>
 
-<p>For example, a drone may look for a charging station that supports 2mm bullet connectors within 2 km of its current location.</p>
+<p>For example, an autonomous boat might search for charging stations within 2 km of the given coordinates that are capable of docking a 1200 kg boat.</p>
 
-<blockquote>
-<p>Need</p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code>curl <span class="s2">"discovery_endpoint_here"</span> <span class="se">\</span>
-  --data <span class="s2">"{ </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">start_at</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">1513005534000</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">latitude</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">32.787793</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">longitude</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">-79.935005</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">radius</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">2000</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">plug_type</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">bullet_2mm</span><span class="se">\"</span><span class="s2"> </span><span class="se">\</span><span class="s2">
-  }"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">discoveryEndPoint</span> <span class="o">=</span> <span class="s1">'discovery_endpoint_here'</span><span class="p">;</span>
+<p>In response, a charging station might send back a bid with a price for the service, the opening and closing times, and the full list of services it offers.</p>
+<h1 id='need'>Need</h1>
+<p>A statement of need for charging services. Typically this will be sent by an electric boat that is looking for a charging station around certain coordinates.</p>
 
-<span class="nx">fetch</span><span class="p">(</span><span class="nx">discoveryEndPoint</span><span class="p">,</span> <span class="p">{</span>
-  <span class="na">method</span><span class="p">:</span> <span class="s1">'POST'</span><span class="p">,</span>
-  <span class="na">body</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
-    <span class="na">start_at</span><span class="p">:</span> <span class="s1">'1513005534000'</span><span class="p">,</span>
-    <span class="na">latitude</span><span class="p">:</span> <span class="s1">'32.787793'</span><span class="p">,</span>
-    <span class="na">longitude</span><span class="p">:</span> <span class="s1">'-79.935005'</span><span class="p">,</span>
-    <span class="na">radius</span><span class="p">:</span> <span class="s1">'2000'</span><span class="p">,</span>
-    <span class="na">plug_type</span><span class="p">:</span> <span class="s1">'bullet_2mm'</span><span class="p">,</span>
-  <span class="p">}),</span>
+<p>This request is sent to the discovery engine which broadcasts the need to DAV identities that can provide this service. <a href="#bid">Bids</a> are later received in response.</p>
+<h2 id='arguments'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">SDKFactory</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js"</span><span class="p">);</span>
+<span class="kr">const</span> <span class="p">{</span> <span class="nx">NeedParams</span><span class="p">,</span> <span class="nx">enums</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">DAV</span> <span class="o">=</span> <span class="nx">SDKFactory</span><span class="p">({</span>
+  <span class="nx">apiSeedUrls</span><span class="p">,</span>
+  <span class="nx">kafkaSeedUrls</span>
 <span class="p">});</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-<span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s">"start_at"</span><span class="p">:</span> <span class="s">"1519093577681"</span><span class="p">,</span>
-    <span class="s">"latitude"</span><span class="p">:</span> <span class="s">"32.787793"</span><span class="p">,</span>
-    <span class="s">"longitude"</span><span class="p">:</span> <span class="s">"-79.935005"</span><span class="p">,</span>
-    <span class="s">"radius"</span><span class="p">:</span> <span class="s">"2000"</span><span class="p">,</span>
-    <span class="s">"plug_type"</span><span class="p">:</span> <span class="s">"bullet_2mm"</span><span class="p">,</span>
-  <span class="p">}</span>
-<span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">"discovery_endpoint_here"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
-</code></pre>
-<p>In response, a charging station might send back a bid with a price per kWh.</p>
+<span class="kr">const</span> <span class="nx">boat</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">DAV</span><span class="p">.</span><span class="nx">getIdentity</span><span class="p">(</span><span class="nx">boatDavId</span><span class="p">);</span>
 
-<blockquote>
-<p>Bid</p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code>curl <span class="s2">"bidding_endpoint_here"</span> <span class="se">\</span>
-  --data <span class="s2">"{ </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">need_id</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">ae7bd8f67f3089c</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">expires_at</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">1513005539000</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">price</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">2300000000000000000,30000000000000000</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">price_type</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">kwh,kwh</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">price_description</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">Price per kWh,VAT per kWh</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">latitude</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">32.785889</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">longitude</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">-79.935569</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">available_from</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">1513005534000</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">available_until</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">1513091934000</span><span class="se">\"</span><span class="s2"> </span><span class="se">\</span><span class="s2">
-  }"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">biddingEndPoint</span> <span class="o">=</span> <span class="s1">'bidding_endpoint_here'</span><span class="p">;</span>
-
-<span class="nx">fetch</span><span class="p">(</span><span class="nx">biddingEndPoint</span><span class="p">,</span> <span class="p">{</span>
-  <span class="na">method</span><span class="p">:</span> <span class="s1">'POST'</span><span class="p">,</span>
-  <span class="na">body</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
-    <span class="na">need_id</span><span class="p">:</span> <span class="s1">'ae7bd8f67f3089c'</span><span class="p">,</span>
-    <span class="na">expires_at</span><span class="p">:</span> <span class="s1">'1513005539000'</span><span class="p">,</span>
-    <span class="na">price</span><span class="p">:</span> <span class="s1">'2300000000000000000,30000000000000000'</span><span class="p">,</span>
-    <span class="na">price_type</span><span class="p">:</span> <span class="s1">'kwh,kwh'</span><span class="p">,</span>
-    <span class="na">price_description</span><span class="p">:</span> <span class="s1">'Price per kWh,VAT per kWh'</span><span class="p">,</span>
-    <span class="na">latitude</span><span class="p">:</span> <span class="s1">'32.785889'</span><span class="p">,</span>
-    <span class="na">longitude</span><span class="p">:</span> <span class="s1">'-79.935569'</span><span class="p">,</span>
-    <span class="na">available_from</span><span class="p">:</span> <span class="s1">'1513005534000'</span><span class="p">,</span>
-    <span class="na">available_until</span><span class="p">:</span> <span class="s1">'1513091934000'</span><span class="p">,</span>
-  <span class="p">}),</span>
+<span class="kr">const</span> <span class="nx">needParams</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">NeedParams</span><span class="p">({</span>
+  <span class="na">location</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">lat</span><span class="p">:</span> <span class="mf">32.050382</span><span class="p">,</span>
+    <span class="na">long</span><span class="p">:</span> <span class="mf">34.766149</span>
+  <span class="p">},</span>
+  <span class="na">radius</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+  <span class="na">startAt</span><span class="p">:</span> <span class="mi">1538995253092</span><span class="p">,</span>
+  <span class="na">dimensions</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">length</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="na">width</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+    <span class="na">height</span><span class="p">:</span> <span class="mi">20</span>
+  <span class="p">},</span>
+  <span class="na">weight</span><span class="p">:</span> <span class="mi">50000</span><span class="p">,</span>
+  <span class="na">batteryCapacity</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="na">currentBatteryCharge</span><span class="p">:</span> <span class="mi">45</span><span class="p">,</span>
+  <span class="na">energySource</span><span class="p">:</span> <span class="nx">enums</span><span class="p">.</span><span class="nx">EnergySources</span><span class="p">.</span><span class="nx">Solar</span><span class="p">,</span>
+  <span class="na">amenities</span><span class="p">:</span> <span class="p">[</span><span class="nx">enums</span><span class="p">.</span><span class="nx">Amenities</span><span class="p">.</span><span class="nx">Docking</span><span class="p">]</span>
 <span class="p">});</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-<span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s">"need_id"</span><span class="p">:</span> <span class="s">"ae7bd8f67f3089c"</span><span class="p">,</span>
-    <span class="s">"expires_at"</span><span class="p">:</span> <span class="s">"1519093577681"</span><span class="p">,</span>
-    <span class="s">"price"</span><span class="p">:</span> <span class="s">"2300000000000000000,30000000000000000"</span><span class="p">,</span>
-    <span class="s">"price_type"</span><span class="p">:</span> <span class="s">"kwh,kwh"</span><span class="p">,</span>
-    <span class="s">"price_description"</span><span class="p">:</span> <span class="s">"Price per kWh,VAT per kWh"</span><span class="p">,</span>
-    <span class="s">"latitude"</span><span class="p">:</span> <span class="s">"32.785889"</span><span class="p">,</span>
-    <span class="s">"longitude"</span><span class="p">:</span> <span class="s">"-79.935569"</span><span class="p">,</span>
-    <span class="s">"available_from"</span><span class="p">:</span> <span class="s">"1513005534000"</span><span class="p">,</span>
-    <span class="s">"available_until"</span><span class="p">:</span> <span class="s">"1513091934000"</span><span class="p">,</span>
-  <span class="p">}</span>
-<span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">"bidding_endpoint_here"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
-</code></pre><h1 id='need'>Need</h1>
-<p>A statement of need for drone charging services. Typically this will be sent by a drone that is looking for a charging station around certain coordinates.</p>
-
-<p>This request is sent to the decentralized discovery engine which responds with status <code>200</code> and a unique identifier for this request. The details of this request are then broadcasted to DAV entities that can provide this service. <a href="#bid">Bids</a> are later received as separate calls.</p>
-<h2 id='arguments'>Arguments</h2>
-<blockquote>
-<p>Post request to a local/remote discovery endpoint</p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code>curl <span class="s2">"discovery_endpoint_here"</span> <span class="se">\</span>
-  --data <span class="s2">"{ </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">start_at</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">1513005534000</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">latitude</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">32.787793</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">longitude</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">-79.935005</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">radius</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">10000</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">drone_type</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">DXY M6000</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">battery_capacity</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">4500</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">charge_level</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">23</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">plug_type</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">bullet_4mm</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">height</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">50</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">width</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">30</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">length</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">30</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">weight</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">2500</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">charge_pad_type</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">enclosed</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">droneport_protection_level</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">56</span><span class="se">\"</span><span class="s2"> </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">energy_source</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">solar</span><span class="se">\"</span><span class="s2"> </span><span class="se">\</span><span class="s2">
-  }"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">discoveryEndPoint</span> <span class="o">=</span> <span class="s2">"discovery_endpoint_here"</span><span class="p">;</span>
-
-<span class="nx">fetch</span><span class="p">(</span><span class="nx">discoveryEndPoint</span><span class="p">,</span> <span class="p">{</span>
-  <span class="na">method</span><span class="p">:</span> <span class="s2">"POST"</span><span class="p">,</span>
-  <span class="na">body</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
-    <span class="s2">"start_at"</span><span class="p">:</span> <span class="s2">"1513005534000"</span><span class="p">,</span>
-    <span class="s2">"latitude"</span><span class="p">:</span> <span class="s2">"32.787793"</span><span class="p">,</span>
-    <span class="s2">"longitude"</span><span class="p">:</span> <span class="s2">"-79.935005"</span><span class="p">,</span>
-    <span class="s2">"radius"</span><span class="p">:</span> <span class="s2">"10000"</span><span class="p">,</span>
-    <span class="s2">"drone_type"</span><span class="p">:</span> <span class="s2">"DXY M6000"</span><span class="p">,</span>
-    <span class="s2">"battery_capacity"</span><span class="p">:</span> <span class="s2">"4500"</span><span class="p">,</span>
-    <span class="s2">"charge_level"</span><span class="p">:</span> <span class="s2">"23"</span><span class="p">,</span>
-    <span class="s2">"plug_type"</span><span class="p">:</span> <span class="s2">"bullet_4mm"</span><span class="p">,</span>
-    <span class="s2">"height"</span><span class="p">:</span> <span class="s2">"50"</span><span class="p">,</span>
-    <span class="s2">"width"</span><span class="p">:</span> <span class="s2">"30"</span><span class="p">,</span>
-    <span class="s2">"length"</span><span class="p">:</span> <span class="s2">"30"</span><span class="p">,</span>
-    <span class="s2">"weight"</span><span class="p">:</span> <span class="s2">"2500"</span><span class="p">,</span>
-    <span class="s2">"charge_pad_type"</span><span class="p">:</span> <span class="s2">"enclosed"</span><span class="p">,</span>
-    <span class="s2">"droneport_protection_level"</span><span class="p">:</span> <span class="s2">"56"</span>
-    <span class="s2">"energy_source"</span><span class="p">:</span> <span class="s2">"solar"</span><span class="p">,</span>
-  <span class="p">})</span>
+<span class="kr">const</span> <span class="nx">need</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">boat</span><span class="p">.</span><span class="nx">publishNeed</span><span class="p">(</span><span class="nx">needParams</span><span class="p">);</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">SDKFactory</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">NeedParams</span><span class="p">,</span> <span class="nx">enums</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">DAV</span> <span class="o">=</span> <span class="nx">SDKFactory</span><span class="p">({</span>
+  <span class="nx">apiSeedUrls</span><span class="p">,</span>
+  <span class="nx">kafkaSeedUrls</span>
 <span class="p">});</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-<span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s">"start_at"</span><span class="p">:</span> <span class="s">"1513005534000"</span><span class="p">,</span>
-    <span class="s">"latitude"</span><span class="p">:</span> <span class="s">"32.787793"</span><span class="p">,</span>
-    <span class="s">"longitude"</span><span class="p">:</span> <span class="s">"-79.935005"</span><span class="p">,</span>
-    <span class="s">"radius"</span><span class="p">:</span> <span class="s">"10000"</span><span class="p">,</span>
-    <span class="s">"drone_type"</span><span class="p">:</span> <span class="s">"DXY M6000"</span><span class="p">,</span>
-    <span class="s">"battery_capacity"</span><span class="p">:</span> <span class="s">"4500"</span><span class="p">,</span>
-    <span class="s">"charge_level"</span><span class="p">:</span> <span class="s">"23"</span><span class="p">,</span>
-    <span class="s">"plug_type"</span><span class="p">:</span> <span class="s">"bullet_4mm"</span><span class="p">,</span>
-    <span class="s">"height"</span><span class="p">:</span> <span class="s">"50"</span><span class="p">,</span>
-    <span class="s">"width"</span><span class="p">:</span> <span class="s">"30"</span><span class="p">,</span>
-    <span class="s">"length"</span><span class="p">:</span> <span class="s">"30"</span><span class="p">,</span>
-    <span class="s">"weight"</span><span class="p">:</span> <span class="s">"2500"</span><span class="p">,</span>
-    <span class="s">"charge_pad_type"</span><span class="p">:</span> <span class="s">"enclosed"</span><span class="p">,</span>
-    <span class="s">"droneport_protection_level"</span><span class="p">:</span> <span class="s">"56"</span>
-    <span class="s">"energy_source"</span><span class="p">:</span> <span class="s">"solar"</span><span class="p">,</span>
-  <span class="p">}</span>
-<span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">"discovery_endpoint_here"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">boat</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">DAV</span><span class="p">.</span><span class="nx">getIdentity</span><span class="p">(</span><span class="nx">boatDavId</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">needParams</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">NeedParams</span><span class="p">({</span>
+  <span class="na">location</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">lat</span><span class="p">:</span> <span class="mf">32.050382</span><span class="p">,</span>
+    <span class="na">long</span><span class="p">:</span> <span class="mf">34.766149</span>
+  <span class="p">},</span>
+  <span class="na">radius</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+  <span class="na">startAt</span><span class="p">:</span> <span class="mi">1538995253092</span><span class="p">,</span>
+  <span class="na">dimensions</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">length</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="na">width</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+    <span class="na">height</span><span class="p">:</span> <span class="mi">20</span>
+  <span class="p">},</span>
+  <span class="na">weight</span><span class="p">:</span> <span class="mi">50000</span><span class="p">,</span>
+  <span class="na">batteryCapacity</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="na">currentBatteryCharge</span><span class="p">:</span> <span class="mi">45</span><span class="p">,</span>
+  <span class="na">energySource</span><span class="p">:</span> <span class="nx">enums</span><span class="p">.</span><span class="nx">EnergySources</span><span class="p">.</span><span class="nx">Solar</span><span class="p">,</span>
+  <span class="na">amenities</span><span class="p">:</span> <span class="p">[</span><span class="nx">enums</span><span class="p">.</span><span class="nx">Amenities</span><span class="p">.</span><span class="nx">Docking</span><span class="p">]</span>
+<span class="p">});</span>
+<span class="kd">const</span> <span class="nx">need</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">boat</span><span class="p">.</span><span class="nx">publishNeed</span><span class="p">(</span><span class="nx">needParams</span><span class="p">);</span>
 </code></pre>
 <table class="arguments">
   <tr>
     <td>
-      <code class="field">start_at</code>
-      <div class="type">optional</div>
-    </td>
-    <td>The time at which the requester would like to arrive at charging station (if undefined, the arrival time will be ASAP). Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">latitude</code>
+      <code class="field">location</code>
       <div class="type required">required</div>
     </td>
-    <td>The latitude coordinate around which to search</td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">longitude</code>
-      <div class="type required">required</div>
-    </td>
-    <td>The longitude coordinate around which to search</td>
+    <td>The coordinates around which to search</td>
   </tr>
   <tr>
     <td>
       <code class="field">radius</code>
       <div class="type required">required</div>
     </td>
-    <td>Radius in meters around the search coordinates to limit the search to. Specified as an integer</td>
+    <td>Radius in meters around the coordinates in which to listen for bids. Specified as an integer</td>
   </tr>
   <tr>
     <td>
@@ -452,55 +417,13 @@
     </td>
     <td>The manufacturer and/or the model number of the drone. An unformatted string</td>
   </tr>
-    <tr>
-    <td>
-      <code class="field">battery_capacity</code>
-      <div class="type">optional</div>
-    </td>
-    <td>The capacity of the drone's battery, specified in mAh</td>
-  </tr>
-      <tr>
-    <td>
-      <code class="field">charge_level</code>
-      <div class="type">optional</div>
-    </td>
-    <td>The drone's current battery charge level, as it was by the time the request was sent. Specified in %</td>
-  </tr>
   <tr>
-    <td>
-      <code class="field">plug_type</code>
-      <div class="type required">required</div>
-    </td>
-    <td>The drone's plug type ID. See <a href="#plug-types">Plug Types</a> for possible values</td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">height</code>
-      <div class="type">optional</div>
-    </td>
-    <td>The minimum height clearance that the drone requires from the charging station. Specified as an integer representing centimeters</td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">width</code>
-      <div class="type">optional</div>
-    </td>
-    <td>The minimum width clearance that the drone requires from the charging station. Specified as an integer representing centimeters</td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">length</code>
-      <div class="type">optional</div>
-    </td>
-    <td>The minimum length clearance that the drone requires from the charging station. Specified as an integer representing centimeters</td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">weight</code>
-      <div class="type">optional</div>
-    </td>
-    <td>The weight of the drone. Charging stations that cannot support a drone weighing this much should not respond. Specified as an integer representing grams</td>
-  </tr>
+      <td>
+        <code class="field">plug_types</code>
+        <div class="type required">required</div>
+      </td>
+      <td>The drone's plug type ID. See <a href="#plug-types">Plug Types</a> for possible values</td>
+    </tr>
   <tr>
     <td>
       <code class="field">charge_pad_type</code>
@@ -517,126 +440,197 @@
   </tr>
   <tr>
     <td>
-      <code class="field">energy_source</code>
+      <code class="field">startAt</code>
       <div class="type">optional</div>
     </td>
-    <td>Limit the request to only receive bids from charging stations using a specific source of the energy. Specified as an energy source id. See <a href="#energy-sources">Energy Sources</a></td>
+    <td>The time at which the requester would like to arrive at charger (if undefined, the arrival time will be ASAP). Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
+  </tr>
+  <tr>
+    <td>
+      <code class="field">dimensions</code>
+      <div class="type">optional</div>
+    </td>
+    <td>The minimum length, width, and height clearance that this vessel requires from the charger. Specified as an object containing integers representing centimeters</td>
+  </tr>
+  <tr>
+    <td>
+      <code class="field">weight</code>
+      <div class="type">optional</div>
+    </td>
+    <td>The weight of this vessel. Specified as an integer representing grams</td>
+  </tr>
+  <tr>
+    <td>
+      <code class="field">batteryCapacity</code>
+      <div class="type">optional</div>
+    </td>
+    <td>The vessel's total battery capacity, specified in kWh</td>
+  </tr>
+  <tr>
+    <td>
+      <code class="field">currentBatteryCharge</code>
+      <div class="type">optional</div>
+    </td>
+    <td>The vessel's current battery charge level, as it was at the time the request was sent. Specified as an integer denoting percentage of full capacity</td>
+  </tr>
+  <tr>
+    <td>
+      <code class="field">energySource</code>
+      <div class="type">optional</div>
+    </td>
+    <td>Limit the request to only receive bids from chargers using a specific source of energy. Specified as an energy source id. See <a href="#energy-sources">Energy Sources</a></td>
+  </tr>
+  <tr>
+    <td>
+      <code class="field">amenities</code>
+      <div class="type">optional</div>
+    </td>
+    <td>A list of amenities that need to be present at charging station. Specified as an array of amenity ids. See <a href="#amenities">Amenities</a></td>
   </tr>
 </table>
-<h1 id='bid'>Bid</h1>
-<p>A bid to provide a charging service. Typically sent from a charging station to a drone.</p>
-<h2 id='arguments-2'>Arguments</h2>
-<blockquote>
-<p>Post request to a local/remote bidding endpoint</p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code>curl <span class="s2">"bidding_endpoint_here"</span> <span class="se">\</span>
-  --data <span class="s2">"{ </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">need_id</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">ae7bd8f67f3089c</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">expires_at</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">1513005539000</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">price</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">2300000000000000000,30000000000000000</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">price_type</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">kwh,kwh</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">price_description</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">Price per kWh,VAT per kWh</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">latitude</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">32.785889</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">longitude</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">-79.935569</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">available_from</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">1513005534000</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">available_until</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">1513091934000</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">location_name</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">IKEA parking lot B</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">location_name_lang</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">eng</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">location_house_number</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">372</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">location_street</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">King</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">location_city</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">Charleston</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">location_postal_code</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">29401</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">location_county</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">Charleston</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">location_state</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">SC</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">location_country</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">USA</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">height</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">5000</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">width</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">1000</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">length</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">1000</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">weight</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">100000</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">plug_types</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">bullet_2mm,bullet_3_5mm,bullet_4mm</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">energy_source</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">solar</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">provider</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">City Charge</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">manufacturer</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">GeoCharge</span><span class="se">\"</span><span class="s2">, </span><span class="se">\</span><span class="s2">
-    </span><span class="se">\"</span><span class="s2">model</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">gc2910</span><span class="se">\"</span><span class="s2"> </span><span class="se">\</span><span class="s2">
-  }"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">biddingEndPoint</span> <span class="o">=</span> <span class="s1">'bidding_endpoint_here'</span><span class="p">;</span>
-
-<span class="nx">fetch</span><span class="p">(</span><span class="nx">biddingEndPoint</span><span class="p">,</span> <span class="p">{</span>
-  <span class="na">method</span><span class="p">:</span> <span class="s1">'POST'</span><span class="p">,</span>
-  <span class="na">body</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
-    <span class="na">need_id</span><span class="p">:</span> <span class="s1">'ae7bd8f67f3089c'</span><span class="p">,</span>
-    <span class="na">expires_at</span><span class="p">:</span> <span class="s1">'1513005539000'</span><span class="p">,</span>
-    <span class="na">price</span><span class="p">:</span> <span class="s1">'2300000000000000000,30000000000000000'</span><span class="p">,</span>
-    <span class="na">price_type</span><span class="p">:</span> <span class="s1">'kwh,kwh'</span><span class="p">,</span>
-    <span class="na">price_description</span><span class="p">:</span> <span class="s1">'Price per kWh,VAT per kWh'</span><span class="p">,</span>
-    <span class="na">latitude</span><span class="p">:</span> <span class="s1">'32.785889'</span><span class="p">,</span>
-    <span class="na">longitude</span><span class="p">:</span> <span class="s1">'-79.935569'</span><span class="p">,</span>
-    <span class="na">available_from</span><span class="p">:</span> <span class="s1">'1513005534000'</span><span class="p">,</span>
-    <span class="na">available_until</span><span class="p">:</span> <span class="s1">'1513091934000'</span><span class="p">,</span>
-    <span class="na">location_name</span><span class="p">:</span> <span class="s1">'IKEA parking lot B'</span><span class="p">,</span>
-    <span class="na">location_name_lang</span><span class="p">:</span> <span class="s1">'eng'</span><span class="p">,</span>
-    <span class="na">location_house_number</span><span class="p">:</span> <span class="s1">'372'</span><span class="p">,</span>
-    <span class="na">location_street</span><span class="p">:</span> <span class="s1">'King'</span><span class="p">,</span>
-    <span class="na">location_city</span><span class="p">:</span> <span class="s1">'Charleston'</span><span class="p">,</span>
-    <span class="na">location_postal_code</span><span class="p">:</span> <span class="s1">'29401'</span><span class="p">,</span>
-    <span class="na">location_county</span><span class="p">:</span> <span class="s1">'Charleston'</span><span class="p">,</span>
-    <span class="na">location_state</span><span class="p">:</span> <span class="s1">'SC'</span><span class="p">,</span>
-    <span class="na">location_country</span><span class="p">:</span> <span class="s1">'USA'</span><span class="p">,</span>
-    <span class="na">height</span><span class="p">:</span> <span class="s1">'5000'</span><span class="p">,</span>
-    <span class="na">width</span><span class="p">:</span> <span class="s1">'1000'</span><span class="p">,</span>
-    <span class="na">length</span><span class="p">:</span> <span class="s1">'1000'</span><span class="p">,</span>
-    <span class="na">weight</span><span class="p">:</span> <span class="s1">'100000'</span><span class="p">,</span>
-    <span class="na">plug_types</span><span class="p">:</span> <span class="s1">'bullet_2mm,bullet_3_5mm,bullet_4mm'</span><span class="p">,</span>
-    <span class="na">energy_source</span><span class="p">:</span> <span class="s1">'solar'</span><span class="p">,</span>
-    <span class="na">provider</span><span class="p">:</span> <span class="s1">'City Charge'</span><span class="p">,</span>
-    <span class="na">manufacturer</span><span class="p">:</span> <span class="s1">'GeoCharge'</span><span class="p">,</span>
-    <span class="na">model</span><span class="p">:</span> <span class="s1">'gc2910'</span><span class="p">,</span>
-  <span class="p">}),</span>
+<h1 id='need-filter'>Need filter</h1>
+<p>Begin listening for incoming needs that match certain requirements. Typically this will be a charging station subscribing to incoming needs from electric boats.</p>
+<h2 id='arguments-2'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">SDKFactory</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js"</span><span class="p">);</span>
+<span class="kr">const</span> <span class="p">{</span> <span class="nx">NeedFilterParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">DAV</span> <span class="o">=</span> <span class="nx">SDKFactory</span><span class="p">({</span>
+  <span class="nx">apiSeedUrls</span><span class="p">,</span>
+  <span class="nx">kafkaSeedUrls</span>
 <span class="p">});</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-<span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s">"need_id"</span><span class="p">:</span> <span class="s">"ae7bd8f67f3089c"</span><span class="p">,</span>
-    <span class="s">"expires_at"</span><span class="p">:</span> <span class="s">"1513005539000"</span><span class="p">,</span>
-    <span class="s">"price"</span><span class="p">:</span> <span class="s">"2300000000000000000,30000000000000000"</span><span class="p">,</span>
-    <span class="s">"price_type"</span><span class="p">:</span> <span class="s">"kwh,kwh"</span><span class="p">,</span>
-    <span class="s">"price_description"</span><span class="p">:</span> <span class="s">"Price per kWh,VAT per kWh"</span><span class="p">,</span>
-    <span class="s">"latitude"</span><span class="p">:</span> <span class="s">"32.785889"</span><span class="p">,</span>
-    <span class="s">"longitude"</span><span class="p">:</span> <span class="s">"-79.935569"</span><span class="p">,</span>
-    <span class="s">"available_from"</span><span class="p">:</span> <span class="s">"1513005534000"</span><span class="p">,</span>
-    <span class="s">"available_until"</span><span class="p">:</span> <span class="s">"1513091934000"</span><span class="p">,</span>
-    <span class="s">"location_name"</span><span class="p">:</span> <span class="s">"IKEA parking lot B"</span><span class="p">,</span>
-    <span class="s">"location_name_lang"</span><span class="p">:</span> <span class="s">"eng"</span><span class="p">,</span>
-    <span class="s">"location_house_number"</span><span class="p">:</span> <span class="s">"372"</span><span class="p">,</span>
-    <span class="s">"location_street"</span><span class="p">:</span> <span class="s">"King"</span><span class="p">,</span>
-    <span class="s">"location_city"</span><span class="p">:</span> <span class="s">"Charleston"</span><span class="p">,</span>
-    <span class="s">"location_postal_code"</span><span class="p">:</span> <span class="s">"29401"</span><span class="p">,</span>
-    <span class="s">"location_county"</span><span class="p">:</span> <span class="s">"Charleston"</span><span class="p">,</span>
-    <span class="s">"location_state"</span><span class="p">:</span> <span class="s">"SC"</span><span class="p">,</span>
-    <span class="s">"location_country"</span><span class="p">:</span> <span class="s">"USA"</span><span class="p">,</span>
-    <span class="s">"height"</span><span class="p">:</span> <span class="s">"5000"</span><span class="p">,</span>
-    <span class="s">"width"</span><span class="p">:</span> <span class="s">"1000"</span><span class="p">,</span>
-    <span class="s">"length"</span><span class="p">:</span> <span class="s">"1000"</span><span class="p">,</span>
-    <span class="s">"weight"</span><span class="p">:</span> <span class="s">"100000"</span><span class="p">,</span>
-    <span class="s">"plug_types"</span><span class="p">:</span> <span class="s">"bullet_2mm,bullet_3_5mm,bullet_4mm"</span><span class="p">,</span>
-    <span class="s">"energy_source"</span><span class="p">:</span> <span class="s">"solar"</span><span class="p">,</span>
-    <span class="s">"provider"</span><span class="p">:</span> <span class="s">"City Charge"</span><span class="p">,</span>
-    <span class="s">"manufacturer"</span><span class="p">:</span> <span class="s">"GeoCharge"</span><span class="p">,</span>
-    <span class="s">"model"</span><span class="p">:</span> <span class="s">"gc2910"</span><span class="p">,</span>
+<span class="kr">const</span> <span class="nx">charger</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">DAV</span><span class="p">.</span><span class="nx">getIdentity</span><span class="p">(</span><span class="nx">chargerDavId</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">needFilterParams</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">NeedFilterParams</span><span class="p">({</span>
+  <span class="na">location</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">lat</span><span class="p">:</span> <span class="mf">32.050382</span><span class="p">,</span>
+    <span class="na">long</span><span class="p">:</span> <span class="mf">34.766149</span>
+  <span class="p">},</span>
+  <span class="na">radius</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+  <span class="na">maxDimensions</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">length</span><span class="p">:</span> <span class="mi">120</span><span class="p">,</span>
+    <span class="na">width</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+    <span class="na">height</span><span class="p">:</span> <span class="mi">100</span>
   <span class="p">}</span>
-<span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">"bidding_endpoint_here"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+<span class="p">});</span>
+<span class="kr">const</span> <span class="nx">needs</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">charger</span><span class="p">.</span><span class="nx">needsForType</span><span class="p">(</span><span class="nx">needFilterParams</span><span class="p">);</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">SDKFactory</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">NeedFilterParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">DAV</span> <span class="o">=</span> <span class="nx">SDKFactory</span><span class="p">({</span>
+  <span class="nx">apiSeedUrls</span><span class="p">,</span>
+  <span class="nx">kafkaSeedUrls</span>
+<span class="p">});</span>
+<span class="kd">const</span> <span class="nx">charger</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">DAV</span><span class="p">.</span><span class="nx">getIdentity</span><span class="p">(</span><span class="nx">chargerDavId</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">needFilterParams</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">NeedFilterParams</span><span class="p">({</span>
+  <span class="na">location</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">lat</span><span class="p">:</span> <span class="mf">32.050382</span><span class="p">,</span>
+    <span class="na">long</span><span class="p">:</span> <span class="mf">34.766149</span>
+  <span class="p">},</span>
+  <span class="na">radius</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+  <span class="na">maxDimensions</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">length</span><span class="p">:</span> <span class="mi">120</span><span class="p">,</span>
+    <span class="na">width</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+    <span class="na">height</span><span class="p">:</span> <span class="mi">100</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+<span class="kd">const</span> <span class="nx">needs</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">charger</span><span class="p">.</span><span class="nx">needsForType</span><span class="p">(</span><span class="nx">needFilterParams</span><span class="p">);</span>
 </code></pre>
 <table class="arguments">
   <tr>
     <td>
-      <code class="field">need_id</code>
+      <code class="field">location</code>
       <div class="type required">required</div>
     </td>
-    <td>The unique identifier of the 'need' this bid is for. This ID arrives as part of the 'need' request</td>
+    <td>The coordinates around which to listen for bids</td>
   </tr>
   <tr>
     <td>
-      <code class="field">expires_at</code>
+      <code class="field">radius</code>
       <div class="type required">required</div>
+    </td>
+    <td>Radius in meters around the coordinates in which to listen for bids. Specified as an integer</td>
+  </tr>
+  <tr>
+    <td>
+      <code class="field">maxDimensions</code>
+      <div class="type">optional</div>
+    </td>
+    <td>The maximum length, width, and height clearance that this charger can accomodate. Specified as an object containing integers representing centimeters</td>
+</table>
+<h1 id='bid'>Bid</h1>
+<p>A bid to provide a charging service. Typically sent from a charger to an electric boat.</p>
+<h2 id='arguments-3'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">BidParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'dav-js/dist/vessel-charging'</span><span class="p">);</span>
+
+<span class="nx">needs</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="nx">need</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">bidParams</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BidParams</span><span class="p">({</span>
+    <span class="na">ttl</span><span class="p">:</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">+</span> <span class="mi">3600000</span><span class="p">,</span>
+    <span class="na">price</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s1">'15000000000000000000'</span><span class="p">,</span>
+      <span class="p">{</span> <span class="na">amount</span><span class="p">:</span> <span class="s1">'1000000000000000000'</span><span class="p">,</span> <span class="na">type</span><span class="p">:</span> <span class="s1">'flat'</span><span class="p">,</span> <span class="na">description</span><span class="p">:</span> <span class="s1">'Tax'</span> <span class="p">},</span>
+    <span class="p">],</span>
+    <span class="na">entranceLocation</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">lat</span><span class="p">:</span> <span class="mf">32.050382</span><span class="p">,</span>
+      <span class="na">long</span><span class="p">:</span> <span class="mf">34.766149</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="na">exitLocation</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">lat</span><span class="p">:</span> <span class="mf">32.050382</span><span class="p">,</span>
+      <span class="na">long</span><span class="p">:</span> <span class="mf">34.766149</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="na">locationName</span><span class="p">:</span> <span class="s1">'Marine Programs Naval Science'</span>
+    <span class="na">locationNameLang</span><span class="p">:</span> <span class="s1">'eng'</span>
+    <span class="na">locationCity</span><span class="p">:</span> <span class="s1">'Vallejo'</span><span class="p">,</span>
+    <span class="na">locationPostalCode</span><span class="p">:</span> <span class="s1">'94590'</span><span class="p">,</span>
+    <span class="na">locationCounty</span><span class="p">:</span> <span class="s1">'Solano'</span><span class="p">,</span>
+    <span class="na">locationState</span><span class="p">:</span> <span class="s1">'CA'</span><span class="p">,</span>
+    <span class="na">locationCountry</span><span class="p">:</span> <span class="s1">'USA'</span><span class="p">,</span>
+    <span class="na">availableFrom</span><span class="p">:</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">(),</span>
+    <span class="na">availableUntil</span><span class="p">:</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">+</span> <span class="mi">3600000</span><span class="p">,</span>
+    <span class="na">energySource</span><span class="p">:</span> <span class="nx">EnergySources</span><span class="p">.</span><span class="nx">Hydro</span><span class="p">,</span>
+    <span class="na">amenities</span><span class="p">:</span> <span class="p">[</span><span class="nx">Amenities</span><span class="p">.</span><span class="nx">Park</span><span class="p">],</span>
+    <span class="na">provider</span><span class="p">:</span> <span class="s1">'HoldenCharge'</span><span class="p">,</span>
+    <span class="na">manufacturer</span><span class="p">:</span> <span class="s1">'Holden Tech LLC'</span><span class="p">,</span>
+    <span class="na">model</span><span class="p">:</span> <span class="s1">'MegaBolt'</span><span class="p">,</span>
+  <span class="p">});</span>
+  <span class="kr">const</span> <span class="nx">bid</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">need</span><span class="p">.</span><span class="nx">createBid</span><span class="p">(</span><span class="nx">bidParams</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">BidParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'dav-js/dist/vessel-charging'</span><span class="p">;</span>
+
+<span class="nx">needs</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">((</span><span class="nx">need</span><span class="p">:</span> <span class="nx">Need</span><span class="o">&lt;</span><span class="nx">NeedParams</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">bidParams</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BidParams</span><span class="p">({</span>
+    <span class="na">ttl</span><span class="p">:</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">+</span> <span class="mi">3600000</span><span class="p">,</span>
+    <span class="na">price</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s1">'15000000000000000000'</span><span class="p">,</span>
+      <span class="p">{</span> <span class="na">amount</span><span class="p">:</span> <span class="s1">'1000000000000000000'</span><span class="p">,</span> <span class="na">type</span><span class="p">:</span> <span class="s1">'flat'</span><span class="p">,</span> <span class="na">description</span><span class="p">:</span> <span class="s1">'Tax'</span> <span class="p">},</span>
+    <span class="p">],</span>
+    <span class="na">entranceLocation</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">lat</span><span class="p">:</span> <span class="mf">32.050382</span><span class="p">,</span>
+      <span class="na">long</span><span class="p">:</span> <span class="mf">34.766149</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="na">exitLocation</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">lat</span><span class="p">:</span> <span class="mf">32.050382</span><span class="p">,</span>
+      <span class="na">long</span><span class="p">:</span> <span class="mf">34.766149</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="na">locationName</span><span class="p">:</span> <span class="s1">'Marine Programs Naval Science'</span>
+    <span class="na">locationNameLang</span><span class="p">:</span> <span class="s1">'eng'</span>
+    <span class="na">locationCity</span><span class="p">:</span> <span class="s1">'Vallejo'</span><span class="p">,</span>
+    <span class="na">locationPostalCode</span><span class="p">:</span> <span class="s1">'94590'</span><span class="p">,</span>
+    <span class="na">locationCounty</span><span class="p">:</span> <span class="s1">'Solano'</span><span class="p">,</span>
+    <span class="na">locationState</span><span class="p">:</span> <span class="s1">'CA'</span><span class="p">,</span>
+    <span class="na">locationCountry</span><span class="p">:</span> <span class="s1">'USA'</span><span class="p">,</span>
+    <span class="na">availableFrom</span><span class="p">:</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">(),</span>
+    <span class="na">availableUntil</span><span class="p">:</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">+</span> <span class="mi">3600000</span><span class="p">,</span>
+    <span class="na">energySource</span><span class="p">:</span> <span class="nx">EnergySources</span><span class="p">.</span><span class="nx">Hydro</span><span class="p">,</span>
+    <span class="na">amenities</span><span class="p">:</span> <span class="p">[</span><span class="nx">Amenities</span><span class="p">.</span><span class="nx">Park</span><span class="p">],</span>
+    <span class="na">provider</span><span class="p">:</span> <span class="s1">'HoldenCharge'</span><span class="p">,</span>
+    <span class="na">manufacturer</span><span class="p">:</span> <span class="s1">'Holden Tech LLC'</span><span class="p">,</span>
+    <span class="na">model</span><span class="p">:</span> <span class="s1">'MegaBolt'</span><span class="p">,</span>
+  <span class="p">});</span>
+  <span class="kd">const</span> <span class="nx">bid</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">need</span><span class="p">.</span><span class="nx">createBid</span><span class="p">(</span><span class="nx">bidParams</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<table class="arguments">
+  <tr>
+    <td>
+      <code class="field">ttl</code>
+      <div class="type">optional</div>
     </td>
     <td>This bid will expire at this time. Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
   </tr>
@@ -645,176 +639,291 @@
       <code class="field">price</code>
       <div class="type required">required</div>
     </td>
-    <td>A comma separated list of prices. Each price is specified as an integer representing Vinci
+    <td>A single price or an array containing prices. If an array is given, all the prices will be charged (e.g., a price per kWh plus a flat rate tax). Each price is specified as either an string representing Vinci, or a price object containing amount, <a href="#price-types">price type</a>, and an optional description
     <br>1 DAV == 1e18 Vinci == 1000000000000000000 Vinci</td>
   </tr>
   <tr>
     <td>
-      <code class="field">price_type</code>
-      <div class="type required">required</div>
-    </td>
-    <td>A list of price types describing the <code>price</code> parameter(s). Specified as a comma separated list. See <a href="#price-types">Price Types</a> for available values</td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">price_description</code>
-      <div class="type required">required</div>
-    </td>
-    <td>A comma separated list of strings describing the <code>price</code> parameter(s) in human readable terms</td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">latitude</code>
-      <div class="type required">required</div>
-    </td>
-    <td>The latitude coordinate of the charging station</td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">longitude</code>
-      <div class="type required">required</div>
-    </td>
-    <td>The longitude coordinate of the charging station</td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">available_from</code>
-      <div class="type required">required</div>
-    </td>
-    <td>The time from which the charging station can be made available. Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">available_until</code>
+      <code class="field">entranceLocation</code>
       <div class="type">optional</div>
     </td>
-    <td>The time until which the charging station can be made available. Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
+    <td>The coordinates of the charger entrance</td>
   </tr>
   <tr>
     <td>
-      <code class="field">location_name</code>
+      <code class="field">exitLocation</code>
       <div class="type">optional</div>
     </td>
-    <td>A human readable name/description of the charging station location (e.g., Lund Train Station parking)</td>
+    <td>The coordinates of the exit from to the charger</td>
   </tr>
   <tr>
     <td>
-      <code class="field">location_name_lang</code>
+      <code class="field">locationName</code>
+      <div class="type">optional</div>
+    </td>
+    <td>A human readable name/description of the charger location (e.g., Cal Maritime Dock C)</td>
+  </tr>
+  <tr>
+    <td>
+      <code class="field">locationNameLang</code>
       <div class="type">optional</div>
     </td>
     <td>The language used in <code>location_name</code>. Specified using the 3 letter <a href="https://en.wikipedia.org/wiki/ISO_639-3" target="blank">ISO 639-3</a> language code</td>
   </tr>
   <tr>
     <td>
-      <code class="field">location_house_number</code>
+      <code class="field">locationHouseNumber</code>
       <div class="type">optional</div>
     </td>
     <td>The house number where the station is located</td>
   </tr>
   <tr>
     <td>
-      <code class="field">location_street</code>
+      <code class="field">locationStreet</code>
       <div class="type">optional</div>
     </td>
     <td>The street name where the station is located</td>
   </tr>
   <tr>
     <td>
-      <code class="field">location_city</code>
+      <code class="field">locationCity</code>
       <div class="type">optional</div>
     </td>
     <td>The city where the station is located</td>
   </tr>
   <tr>
     <td>
-      <code class="field">location_postal_code</code>
+      <code class="field">locationPostalCode</code>
       <div class="type">optional</div>
     </td>
     <td>The postal code where the station is located</td>
   </tr>
   <tr>
     <td>
-      <code class="field">location_county</code>
+      <code class="field">locationCounty</code>
       <div class="type">optional</div>
     </td>
-    <td>The county where the station is located</td>
+    <td>The county where the charger is located</td>
   </tr>
   <tr>
     <td>
-      <code class="field">location_state</code>
+      <code class="field">locationState</code>
       <div class="type">optional</div>
     </td>
-    <td>The state where the station is located</td>
+    <td>The state where the charger is located</td>
   </tr>
   <tr>
     <td>
-      <code class="field">location_country</code>
+      <code class="field">locationCountry</code>
       <div class="type">optional</div>
     </td>
-    <td>The country where the station is located</td>
+    <td>The country where the charger is located</td>
   </tr>
   <tr>
     <td>
-      <code class="field">height</code>
-      <div class="type">optional</div>
+      <code class="field">availableFrom</code>
+      <div class="type required">required</div>
     </td>
-    <td>The maximum drone height this station can accommodate. Specified as an integer representing centimeters</td>
+    <td>The time from which the charger can be made available for the vessel requesting a charge. Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
   </tr>
   <tr>
     <td>
-      <code class="field">width</code>
+      <code class="field">availableUntil</code>
       <div class="type">optional</div>
     </td>
-    <td>The maximum drone width this station can accommodate. Specified as an integer representing centimeters</td>
+    <td>The time until which the charger can be made available for the vessel requesting a charge. Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
   </tr>
   <tr>
     <td>
-      <code class="field">length</code>
+      <code class="field">energySource</code>
       <div class="type">optional</div>
     </td>
-    <td>The maximum drone length this station can accommodate. Specified as an integer representing centimeters</td>
+    <td>The source of the energy used by this charger. Specified as an energy source id. See <a href="#energy-sources">Energy Sources</a></td>
   </tr>
   <tr>
     <td>
-      <code class="field">weight</code>
+      <code class="field">amenities</code>
       <div class="type">optional</div>
     </td>
-    <td>The maximum drone weight this station can accommodate. Specified as an integer representing grams</td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">plug_types</code>
-      <div class="type">required</div>
-    </td>
-    <td>A list of plug types available at this charging station. Specified as a comma separated list of plug type ids. See <a href="#plug-types">Plug Types</a> for available values</td>
-  </tr>
-  <tr>
-    <td>
-      <code class="field">energy_source</code>
-      <div class="type">optional</div>
-    </td>
-    <td>The source of the energy used by this charging station. Specified as an energy source id. See <a href="#energy-sources">Energy Sources</a></td>
+    <td>A list of amenities that are present at this charger. Specified as an array of amenity ids. See <a href="#amenities">Amenities</a></td>
   </tr>
   <tr>
     <td>
       <code class="field">provider</code>
       <div class="type">optional</div>
     </td>
-    <td>Name of the service provider or charging network operating this charging station</td>
+    <td>Name of the service provider or charging network operating this charger</td>
+  </tr>
+  <tr>
+      <td>
+        <code class="field">plug_types</code>
+        <div class="type required">required</div>
+      </td>
+      <td>The drone's plug type ID. See <a href="#plug-types">Plug Types</a> for possible values</td>
+    </tr>
+  <tr>
+    <td>
+      <code class="field">charge_pad_type</code>
+      <div class="type">optional</div>
+    </td>
+    <td>The type of charging pad. Accepted values can be either <code>open</code> (for an outdoor pad) or <code>enclosed</code> (for an enclosed charging pad)</td>
+  </tr>
+  <tr>
+    <td>
+      <code class="field">droneport_protection_level</code>
+      <div class="type">optional</div>
+    </td>
+    <td>Charging stations may also provide protection services for drones. This parameter specifies the level of protection given to a drone. See possible codes under <a href="#drone-protection-level">Drone Protection Level</a></td>
   </tr>
   <tr>
     <td>
       <code class="field">manufacturer</code>
       <div class="type">optional</div>
     </td>
-    <td>Name of the manufacturer of this charging station</td>
+    <td>Name of the manufacturer of this charger</td>
   </tr>
   <tr>
     <td>
       <code class="field">model</code>
       <div class="type">optional</div>
     </td>
-    <td>Name of the model of this charging station</td>
+    <td>Name of the model of this charger</td>
+  </tr>
+</table>
+<h1 id='starting'>Starting</h1>
+<p>A message sent by the service provider (the charger) to the service requester, notifying it that the mission has started</p>
+<h2 id='arguments-4'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">StartingMessageParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">startingMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">StartingMessageParams</span><span class="p">();</span>
+<span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">startingMessage</span><span class="p">);</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">StartingMessageParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">startingMessageParams</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">StartingMessageParams</span><span class="p">();</span>
+<span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">startingMessage</span><span class="p">);</span>
+</code></pre>
+<table class="arguments">
+  <tr>
+    <td>None</td>
+  </tr>
+</table>
+<h1 id='request-status'>Request Status</h1>
+<p>A request message sent by either party, asking the other party for a status update</p>
+<h2 id='arguments-5'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">StatusRequestMessageParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">statusRequestMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">StatusRequestMessageParams</span><span class="p">({});</span>
+<span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">statusRequestMessage</span><span class="p">);</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">StatusRequestMessageParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">statusRequestMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">StatusRequestMessageParams</span><span class="p">({});</span>
+<span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">statusRequestMessage</span><span class="p">);</span>
+</code></pre>
+<table class="arguments">
+  <tr>
+    <td>None</td>
+  </tr>
+</table>
+<h1 id='provider-status'>Provider Status</h1>
+<p>A status update sent by the service provider (usually a charging station) to the vessel</p>
+<h2 id='arguments-6'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">ProviderStatusMessageParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">providerStatusMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ProviderStatusMessageParams</span><span class="p">({</span>
+  <span class="na">chargeCompletionEstimatedTime</span><span class="p">:</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">+</span> <span class="mi">5000</span>
+<span class="p">});</span>
+<span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">providerStatusMessage</span><span class="p">);</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ProviderStatusMessageParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">providerStatusMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ProviderStatusMessageParams</span><span class="p">({</span>
+  <span class="na">chargeCompletionEstimatedTime</span><span class="p">:</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">+</span> <span class="mi">5000</span>
+<span class="p">});</span>
+<span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">providerStatusMessage</span><span class="p">);</span>
+</code></pre>
+<table class="arguments">
+  <tr>
+    <td>
+      <code class="field">chargeCompletionEstimatedTime</code>
+      <div class="type">optional</div>
+    </td>
+    <td>The estimated time at which charging will be complete. Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
+  </tr>
+</table>
+<h1 id='vessel-status'>Vessel Status</h1>
+<p>A status update sent by the service requester (the vessel) to the service provider (charger)</p>
+<h2 id='arguments-7'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">VesselStatusMessageParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">vesselStatusMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">VesselStatusMessageParams</span><span class="p">({</span>
+  <span class="na">location</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">lat</span><span class="p">:</span> <span class="mf">32.050382</span><span class="p">,</span>
+    <span class="na">long</span><span class="p">:</span> <span class="mf">34.766149</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+<span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">vesselStatusMessage</span><span class="p">);</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">VesselStatusMessageParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">vesselStatusMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">VesselStatusMessageParams</span><span class="p">({</span>
+  <span class="na">location</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">lat</span><span class="p">:</span> <span class="mf">32.050382</span><span class="p">,</span>
+    <span class="na">long</span><span class="p">:</span> <span class="mf">34.766149</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+<span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">vesselStatusMessage</span><span class="p">);</span>
+</code></pre>
+<table class="arguments">
+  <tr>
+    <td>
+      <code class="field">location</code>
+      <div class="type">optional</div>
+    </td>
+    <td>The current coordinates of the vehicle's location</td>
+  </tr>
+</table>
+<h1 id='charging-arrival'>Charging Arrival</h1>
+<p>A message sent by the service requester (the vessel) to the service provider (charger), notifying it that it has arrived at the charger&#39;s location</p>
+<h2 id='arguments-8'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">ChargingArrivalMessageParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">chargingArrivalMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ChargingArrivalMessageParams</span><span class="p">();</span>
+<span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">chargingArrivalMessage</span><span class="p">);</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ChargingArrivalMessageParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">chargingArrivalMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ChargingArrivalMessageParams</span><span class="p">();</span>
+<span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">chargingArrivalMessage</span><span class="p">);</span>
+</code></pre>
+<table class="arguments">
+  <tr>
+    <td>None</td>
+  </tr>
+</table>
+<h1 id='charging-started'>Charging Started</h1>
+<p>A message sent by the service provider to the service requester, notifying it that charging has begun</p>
+<h2 id='arguments-9'>Arguments</h2><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ChargingStartedMessageParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">chargingStartedMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ChargingStartedMessageParams</span><span class="p">();</span>
+<span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">chargingStartedMessage</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">ChargingStartedMessageParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">chargingStartedMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ChargingStartedMessageParams</span><span class="p">();</span>
+<span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">chargingStartedMessage</span><span class="p">);</span>
+</code></pre>
+<table class="arguments">
+  <tr>
+    <td>None</td>
+  </tr>
+</table>
+<h1 id='charging-complete'>Charging Complete</h1>
+<p>A message sent by the service provider to the service requester, notifying it that charging has completed</p>
+<h2 id='arguments-10'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span>
+  <span class="nx">ChargingCompleteMessageParams</span>
+<span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">chargingCompleteMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ChargingCompleteMessageParams</span><span class="p">();</span>
+<span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">chargingCompleteMessage</span><span class="p">);</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ChargingCompleteMessageParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">chargingCompleteMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ChargingCompleteMessageParams</span><span class="p">();</span>
+<span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">chargingCompleteMessage</span><span class="p">);</span>
+</code></pre>
+<table class="arguments">
+  <tr>
+    <td>None</td>
   </tr>
 </table>
 <h1 id='plug-types'>Plug Types</h1>
@@ -1017,6 +1126,47 @@
     <td>Protected from steam-jet cleaning, limited ingress protection</td>
   </tr>
 </table>
+<h1 id='amenities'>Amenities</h1>
+<p>A list of amenities can be included in both requests and responses.</p>
+
+<table class="reference">
+  <tr>
+    <th>ID</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>1</code></td>
+    <td>Lodging</td>
+  </tr>
+  <tr>
+    <td><code>2</code></td>
+    <td>Dining</td>
+  </tr>
+  <tr>
+    <td><code>3</code></td>
+    <td>Restrooms</td>
+  </tr>
+  <tr>
+    <td><code>4</code></td>
+    <td>Docking</td>
+  </tr>
+  <tr>
+    <td><code>5</code></td>
+    <td>Park</td>
+  </tr>
+  <tr>
+    <td><code>6</code></td>
+    <td>WiFi</td>
+  </tr>
+  <tr>
+    <td><code>7</code></td>
+    <td>Shopping</td>
+  </tr>
+  <tr>
+    <td><code>8</code></td>
+    <td>Grocery</td>
+  </tr>
+</table>
 <h1 id='price-types'>Price Types</h1>
 <p>Price types and their unique identifier.</p>
 
@@ -1058,9 +1208,8 @@
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="shell">shell</a>
                 <a href="#" data-language-name="javascript">javascript</a>
-                <a href="#" data-language-name="python">python</a>
+                <a href="#" data-language-name="typescript">typescript</a>
           </div>
       </div>
     </div>

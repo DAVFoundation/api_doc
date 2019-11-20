@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Vessel Charging</title>
+    <title>Drone Charging</title>
     <link rel="icon" type="image/png" sizes="192x192"  href="../../images/favicon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon.png">
     <link rel="icon" type="image/png" sizes="96x96" href="../../images/favicon.png">
@@ -224,7 +224,7 @@
         <ul class="search-results"></ul>
       <div id="toc" class="toc-list-h1">
           <li>
-            <a href="#vessel-charging-protocol" class="toc-h1 toc-link" data-title="Vessel Charging Protocol">Vessel Charging Protocol</a>
+            <a href="#drone-charging-protocol" class="toc-h1 toc-link" data-title="Drone Charging Protocol">Drone Charging Protocol</a>
           </li>
           <li>
             <a href="#need" class="toc-h1 toc-link" data-title="Need">Need</a>
@@ -275,7 +275,7 @@
               </ul>
           </li>
           <li>
-            <a href="#vessel-status" class="toc-h1 toc-link" data-title="Vessel Status">Vessel Status</a>
+            <a href="#drone-status" class="toc-h1 toc-link" data-title="Drone Status">Drone Status</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#arguments-7" class="toc-h2 toc-link" data-title="Arguments">Arguments</a>
@@ -329,24 +329,24 @@
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <p class="header-image"><img src="../../images/vessel_charging/header.png" alt="Vessel Charging"></p>
-<h1 id='vessel-charging-protocol'>Vessel Charging Protocol</h1>
-<p>The communication protocol for vessel charging describes the format of a request for a charging service (<code>need</code>), and the response sent by a charging provider (<code>bid</code>).</p>
+        <p class="header-image"><img src="../../images/drone_charging/header.png" alt="Drone Charging"></p>
+<h1 id='drone-charging-protocol'>Drone Charging Protocol</h1>
+<p>The communication protocol for drone charging describes the format of a request for a charging service (<code>need</code>), and the response sent by a charging provider (<code>bid</code>).</p>
 
-<p>For example, an autonomous boat might search for charging stations within 2 km of the given coordinates that are capable of docking a 1200 kg boat.</p>
+<p>For example, an autonomous drone might search for charging stations within 2 km of the given coordinates that are capable of docking a 1200 kg drone.</p>
 
 <p>In response, a charging station might send back a bid with a price for the service, the opening and closing times, and the full list of services it offers.</p>
 <h1 id='need'>Need</h1>
-<p>A statement of need for charging services. Typically this will be sent by an electric boat that is looking for a charging station around certain coordinates.</p>
+<p>A statement of need for charging services. Typically this will be sent by an drone that is looking for a charging station around certain coordinates.</p>
 
 <p>This request is sent to the discovery engine which broadcasts the need to DAV identities that can provide this service. <a href="#bid">Bids</a> are later received in response.</p>
 <h2 id='arguments'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">SDKFactory</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js"</span><span class="p">);</span>
-<span class="kr">const</span> <span class="p">{</span> <span class="nx">NeedParams</span><span class="p">,</span> <span class="nx">enums</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">);</span>
+<span class="kr">const</span> <span class="p">{</span> <span class="nx">NeedParams</span><span class="p">,</span> <span class="nx">enums</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/drone-charging"</span><span class="p">);</span>
 <span class="kr">const</span> <span class="nx">DAV</span> <span class="o">=</span> <span class="nx">SDKFactory</span><span class="p">({</span>
   <span class="nx">apiSeedUrls</span><span class="p">,</span>
   <span class="nx">kafkaSeedUrls</span>
 <span class="p">});</span>
-<span class="kr">const</span> <span class="nx">boat</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">DAV</span><span class="p">.</span><span class="nx">getIdentity</span><span class="p">(</span><span class="nx">boatDavId</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">drone</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">DAV</span><span class="p">.</span><span class="nx">getIdentity</span><span class="p">(</span><span class="nx">droneDavId</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">needParams</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">NeedParams</span><span class="p">({</span>
   <span class="na">location</span><span class="p">:</span> <span class="p">{</span>
@@ -366,14 +366,14 @@
   <span class="na">energySource</span><span class="p">:</span> <span class="nx">enums</span><span class="p">.</span><span class="nx">EnergySources</span><span class="p">.</span><span class="nx">Solar</span><span class="p">,</span>
   <span class="na">amenities</span><span class="p">:</span> <span class="p">[</span><span class="nx">enums</span><span class="p">.</span><span class="nx">Amenities</span><span class="p">.</span><span class="nx">Docking</span><span class="p">]</span>
 <span class="p">});</span>
-<span class="kr">const</span> <span class="nx">need</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">boat</span><span class="p">.</span><span class="nx">publishNeed</span><span class="p">(</span><span class="nx">needParams</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">need</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">drone</span><span class="p">.</span><span class="nx">publishNeed</span><span class="p">(</span><span class="nx">needParams</span><span class="p">);</span>
 </code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">SDKFactory</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">NeedParams</span><span class="p">,</span> <span class="nx">enums</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">NeedParams</span><span class="p">,</span> <span class="nx">enums</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/drone-charging"</span><span class="p">;</span>
 <span class="kd">const</span> <span class="nx">DAV</span> <span class="o">=</span> <span class="nx">SDKFactory</span><span class="p">({</span>
   <span class="nx">apiSeedUrls</span><span class="p">,</span>
   <span class="nx">kafkaSeedUrls</span>
 <span class="p">});</span>
-<span class="kd">const</span> <span class="nx">boat</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">DAV</span><span class="p">.</span><span class="nx">getIdentity</span><span class="p">(</span><span class="nx">boatDavId</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">drone</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">DAV</span><span class="p">.</span><span class="nx">getIdentity</span><span class="p">(</span><span class="nx">droneDavId</span><span class="p">);</span>
 
 <span class="kd">const</span> <span class="nx">needParams</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">NeedParams</span><span class="p">({</span>
   <span class="na">location</span><span class="p">:</span> <span class="p">{</span>
@@ -393,7 +393,7 @@
   <span class="na">energySource</span><span class="p">:</span> <span class="nx">enums</span><span class="p">.</span><span class="nx">EnergySources</span><span class="p">.</span><span class="nx">Solar</span><span class="p">,</span>
   <span class="na">amenities</span><span class="p">:</span> <span class="p">[</span><span class="nx">enums</span><span class="p">.</span><span class="nx">Amenities</span><span class="p">.</span><span class="nx">Docking</span><span class="p">]</span>
 <span class="p">});</span>
-<span class="kd">const</span> <span class="nx">need</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">boat</span><span class="p">.</span><span class="nx">publishNeed</span><span class="p">(</span><span class="nx">needParams</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">need</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">drone</span><span class="p">.</span><span class="nx">publishNeed</span><span class="p">(</span><span class="nx">needParams</span><span class="p">);</span>
 </code></pre>
 <table class="arguments">
   <tr>
@@ -450,28 +450,28 @@
       <code class="field">dimensions</code>
       <div class="type">optional</div>
     </td>
-    <td>The minimum length, width, and height clearance that this vessel requires from the charger. Specified as an object containing integers representing centimeters</td>
+    <td>The minimum length, width, and height clearance that this drone requires from the charger. Specified as an object containing integers representing centimeters</td>
   </tr>
   <tr>
     <td>
       <code class="field">weight</code>
       <div class="type">optional</div>
     </td>
-    <td>The weight of this vessel. Specified as an integer representing grams</td>
+    <td>The weight of this drone. Specified as an integer representing grams</td>
   </tr>
   <tr>
     <td>
       <code class="field">batteryCapacity</code>
       <div class="type">optional</div>
     </td>
-    <td>The vessel's total battery capacity, specified in kWh</td>
+    <td>The drone's total battery capacity, specified in kWh</td>
   </tr>
   <tr>
     <td>
       <code class="field">currentBatteryCharge</code>
       <div class="type">optional</div>
     </td>
-    <td>The vessel's current battery charge level, as it was at the time the request was sent. Specified as an integer denoting percentage of full capacity</td>
+    <td>The drone's current battery charge level, as it was at the time the request was sent. Specified as an integer denoting percentage of full capacity</td>
   </tr>
   <tr>
     <td>
@@ -489,9 +489,9 @@
   </tr>
 </table>
 <h1 id='need-filter'>Need filter</h1>
-<p>Begin listening for incoming needs that match certain requirements. Typically this will be a charging station subscribing to incoming needs from electric boats.</p>
+<p>Begin listening for incoming needs that match certain requirements. Typically this will be a charging station subscribing to incoming needs from electric drones.</p>
 <h2 id='arguments-2'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">SDKFactory</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js"</span><span class="p">);</span>
-<span class="kr">const</span> <span class="p">{</span> <span class="nx">NeedFilterParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">);</span>
+<span class="kr">const</span> <span class="p">{</span> <span class="nx">NeedFilterParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/drone-charging"</span><span class="p">);</span>
 <span class="kr">const</span> <span class="nx">DAV</span> <span class="o">=</span> <span class="nx">SDKFactory</span><span class="p">({</span>
   <span class="nx">apiSeedUrls</span><span class="p">,</span>
   <span class="nx">kafkaSeedUrls</span>
@@ -512,7 +512,7 @@
 <span class="p">});</span>
 <span class="kr">const</span> <span class="nx">needs</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">charger</span><span class="p">.</span><span class="nx">needsForType</span><span class="p">(</span><span class="nx">needFilterParams</span><span class="p">);</span>
 </code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">SDKFactory</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">NeedFilterParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">NeedFilterParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/drone-charging"</span><span class="p">;</span>
 <span class="kd">const</span> <span class="nx">DAV</span> <span class="o">=</span> <span class="nx">SDKFactory</span><span class="p">({</span>
   <span class="nx">apiSeedUrls</span><span class="p">,</span>
   <span class="nx">kafkaSeedUrls</span>
@@ -556,8 +556,8 @@
     <td>The maximum length, width, and height clearance that this charger can accomodate. Specified as an object containing integers representing centimeters</td>
 </table>
 <h1 id='bid'>Bid</h1>
-<p>A bid to provide a charging service. Typically sent from a charger to an electric boat.</p>
-<h2 id='arguments-3'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">BidParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'dav-js/dist/vessel-charging'</span><span class="p">);</span>
+<p>A bid to provide a charging service. Typically sent from a charger to an electric drone.</p>
+<h2 id='arguments-3'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">BidParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'dav-js/dist/drone-charging'</span><span class="p">);</span>
 
 <span class="nx">needs</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="nx">need</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kr">const</span> <span class="nx">bidParams</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BidParams</span><span class="p">({</span>
@@ -591,7 +591,7 @@
   <span class="p">});</span>
   <span class="kr">const</span> <span class="nx">bid</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">need</span><span class="p">.</span><span class="nx">createBid</span><span class="p">(</span><span class="nx">bidParams</span><span class="p">);</span>
 <span class="p">});</span>
-</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">BidParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'dav-js/dist/vessel-charging'</span><span class="p">;</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">BidParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'dav-js/dist/drone-charging'</span><span class="p">;</span>
 
 <span class="nx">needs</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">((</span><span class="nx">need</span><span class="p">:</span> <span class="nx">Need</span><span class="o">&lt;</span><span class="nx">NeedParams</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">bidParams</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BidParams</span><span class="p">({</span>
@@ -724,14 +724,14 @@
       <code class="field">availableFrom</code>
       <div class="type required">required</div>
     </td>
-    <td>The time from which the charger can be made available for the vessel requesting a charge. Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
+    <td>The time from which the charger can be made available for the drone requesting a charge. Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
   </tr>
   <tr>
     <td>
       <code class="field">availableUntil</code>
       <div class="type">optional</div>
     </td>
-    <td>The time until which the charger can be made available for the vessel requesting a charge. Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
+    <td>The time until which the charger can be made available for the drone requesting a charge. Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
   </tr>
   <tr>
     <td>
@@ -792,11 +792,11 @@
 </table>
 <h1 id='starting'>Starting</h1>
 <p>A message sent by the service provider (the charger) to the service requester, notifying it that the mission has started</p>
-<h2 id='arguments-4'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">StartingMessageParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">);</span>
+<h2 id='arguments-4'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">StartingMessageParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/drone-charging"</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">startingMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">StartingMessageParams</span><span class="p">();</span>
 <span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">startingMessage</span><span class="p">);</span>
-</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">StartingMessageParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">;</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">StartingMessageParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/drone-charging"</span><span class="p">;</span>
 
 <span class="kd">const</span> <span class="nx">startingMessageParams</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">StartingMessageParams</span><span class="p">();</span>
 <span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">startingMessage</span><span class="p">);</span>
@@ -808,11 +808,11 @@
 </table>
 <h1 id='request-status'>Request Status</h1>
 <p>A request message sent by either party, asking the other party for a status update</p>
-<h2 id='arguments-5'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">StatusRequestMessageParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">);</span>
+<h2 id='arguments-5'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">StatusRequestMessageParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/drone-charging"</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">statusRequestMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">StatusRequestMessageParams</span><span class="p">({});</span>
 <span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">statusRequestMessage</span><span class="p">);</span>
-</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">StatusRequestMessageParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">;</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">StatusRequestMessageParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/drone-charging"</span><span class="p">;</span>
 
 <span class="kd">const</span> <span class="nx">statusRequestMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">StatusRequestMessageParams</span><span class="p">({});</span>
 <span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">statusRequestMessage</span><span class="p">);</span>
@@ -823,14 +823,14 @@
   </tr>
 </table>
 <h1 id='provider-status'>Provider Status</h1>
-<p>A status update sent by the service provider (usually a charging station) to the vessel</p>
-<h2 id='arguments-6'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">ProviderStatusMessageParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">);</span>
+<p>A status update sent by the service provider (usually a charging station) to the drone</p>
+<h2 id='arguments-6'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">ProviderStatusMessageParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/drone-charging"</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">providerStatusMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ProviderStatusMessageParams</span><span class="p">({</span>
   <span class="na">chargeCompletionEstimatedTime</span><span class="p">:</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">+</span> <span class="mi">5000</span>
 <span class="p">});</span>
 <span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">providerStatusMessage</span><span class="p">);</span>
-</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ProviderStatusMessageParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">;</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ProviderStatusMessageParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/drone-charging"</span><span class="p">;</span>
 
 <span class="kd">const</span> <span class="nx">providerStatusMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ProviderStatusMessageParams</span><span class="p">({</span>
   <span class="na">chargeCompletionEstimatedTime</span><span class="p">:</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">+</span> <span class="mi">5000</span>
@@ -846,26 +846,26 @@
     <td>The estimated time at which charging will be complete. Specified as time in seconds since <a href="https://en.wikipedia.org/wiki/Unix_time" target="blank">Epoch/Unix Time</a></td>
   </tr>
 </table>
-<h1 id='vessel-status'>Vessel Status</h1>
-<p>A status update sent by the service requester (the vessel) to the service provider (charger)</p>
-<h2 id='arguments-7'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">VesselStatusMessageParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">);</span>
+<h1 id='drone-status'>Drone Status</h1>
+<p>A status update sent by the service requester (the drone) to the service provider (charger)</p>
+<h2 id='arguments-7'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">DroneStatusMessageParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/drone-charging"</span><span class="p">);</span>
 
-<span class="kr">const</span> <span class="nx">vesselStatusMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">VesselStatusMessageParams</span><span class="p">({</span>
+<span class="kr">const</span> <span class="nx">droneStatusMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DroneStatusMessageParams</span><span class="p">({</span>
   <span class="na">location</span><span class="p">:</span> <span class="p">{</span>
     <span class="na">lat</span><span class="p">:</span> <span class="mf">32.050382</span><span class="p">,</span>
     <span class="na">long</span><span class="p">:</span> <span class="mf">34.766149</span>
   <span class="p">}</span>
 <span class="p">});</span>
-<span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">vesselStatusMessage</span><span class="p">);</span>
-</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">VesselStatusMessageParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">;</span>
+<span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">droneStatusMessage</span><span class="p">);</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">DroneStatusMessageParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/drone-charging"</span><span class="p">;</span>
 
-<span class="kd">const</span> <span class="nx">vesselStatusMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">VesselStatusMessageParams</span><span class="p">({</span>
+<span class="kd">const</span> <span class="nx">droneStatusMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DroneStatusMessageParams</span><span class="p">({</span>
   <span class="na">location</span><span class="p">:</span> <span class="p">{</span>
     <span class="na">lat</span><span class="p">:</span> <span class="mf">32.050382</span><span class="p">,</span>
     <span class="na">long</span><span class="p">:</span> <span class="mf">34.766149</span>
   <span class="p">}</span>
 <span class="p">});</span>
-<span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">vesselStatusMessage</span><span class="p">);</span>
+<span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">droneStatusMessage</span><span class="p">);</span>
 </code></pre>
 <table class="arguments">
   <tr>
@@ -877,12 +877,12 @@
   </tr>
 </table>
 <h1 id='charging-arrival'>Charging Arrival</h1>
-<p>A message sent by the service requester (the vessel) to the service provider (charger), notifying it that it has arrived at the charger&#39;s location</p>
-<h2 id='arguments-8'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">ChargingArrivalMessageParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">);</span>
+<p>A message sent by the service requester (the drone) to the service provider (charger), notifying it that it has arrived at the charger&#39;s location</p>
+<h2 id='arguments-8'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">ChargingArrivalMessageParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/drone-charging"</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">chargingArrivalMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ChargingArrivalMessageParams</span><span class="p">();</span>
 <span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">chargingArrivalMessage</span><span class="p">);</span>
-</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ChargingArrivalMessageParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">;</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ChargingArrivalMessageParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/drone-charging"</span><span class="p">;</span>
 
 <span class="kd">const</span> <span class="nx">chargingArrivalMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ChargingArrivalMessageParams</span><span class="p">();</span>
 <span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">chargingArrivalMessage</span><span class="p">);</span>
@@ -894,11 +894,11 @@
 </table>
 <h1 id='charging-started'>Charging Started</h1>
 <p>A message sent by the service provider to the service requester, notifying it that charging has begun</p>
-<h2 id='arguments-9'>Arguments</h2><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ChargingStartedMessageParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">;</span>
+<h2 id='arguments-9'>Arguments</h2><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ChargingStartedMessageParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/drone-charging"</span><span class="p">;</span>
 
 <span class="kd">const</span> <span class="nx">chargingStartedMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ChargingStartedMessageParams</span><span class="p">();</span>
 <span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">chargingStartedMessage</span><span class="p">);</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">ChargingStartedMessageParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">ChargingStartedMessageParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/drone-charging"</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">chargingStartedMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ChargingStartedMessageParams</span><span class="p">();</span>
 <span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">chargingStartedMessage</span><span class="p">);</span>
@@ -910,13 +910,11 @@
 </table>
 <h1 id='charging-complete'>Charging Complete</h1>
 <p>A message sent by the service provider to the service requester, notifying it that charging has completed</p>
-<h2 id='arguments-10'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span>
-  <span class="nx">ChargingCompleteMessageParams</span>
-<span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">);</span>
+<h2 id='arguments-10'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">ChargingCompleteMessageParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/drone-charging"</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">chargingCompleteMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ChargingCompleteMessageParams</span><span class="p">();</span>
 <span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">chargingCompleteMessage</span><span class="p">);</span>
-</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ChargingCompleteMessageParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/vessel-charging"</span><span class="p">;</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ChargingCompleteMessageParams</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"dav-js/dist/drone-charging"</span><span class="p">;</span>
 
 <span class="kd">const</span> <span class="nx">chargingCompleteMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ChargingCompleteMessageParams</span><span class="p">();</span>
 <span class="nx">mission</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">chargingCompleteMessage</span><span class="p">);</span>

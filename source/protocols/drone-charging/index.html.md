@@ -17,13 +17,13 @@ search: true
 
 The communication protocol for drone charging describes the format of a request for a charging service (`need`), and the response sent by a charging provider (`bid`).
 
-For example, an autonomous drone might search for charging stations within 2 km of the given coordinates that are capable of docking a 1200 kg drone.
+For example, a drone might search for charging stations within 2 km of its location that supports 2mm bullet connectors.
 
-In response, a charging station might send back a bid with a price for the service, the opening and closing times, and the full list of services it offers.
+In response, a charging station might send back a bid with a price per kWh, a time at which the service can be provided, and additional amenities provided (e.g., the ability for the drone to remain parked on the charger after charging completes).
 
 # Need
 
-A statement of need for charging services. Typically this will be sent by an drone that is looking for a charging station around certain coordinates.
+A statement of need for charging services. Typically this will be sent by a drone that is looking for a charging station around certain coordinates.
 
 This request is sent to the discovery engine which broadcasts the need to DAV identities that can provide this service. <a href="#bid">Bids</a> are later received in response.
 
@@ -102,7 +102,7 @@ const need = await drone.publishNeed(needParams);
       <code class="field">radius</code>
       <div class="type required">required</div>
     </td>
-    <td>Radius in meters around the coordinates in which to listen for bids. Specified as an integer</td>
+    <td>Radius in meters around the coordinates in which to search for charging services. Specified as an integer</td>
   </tr>
   <tr>
     <td>
@@ -123,7 +123,7 @@ const need = await drone.publishNeed(needParams);
       <code class="field">charge_pad_type</code>
       <div class="type">optional</div>
     </td>
-    <td>The type of charging pad. Accepted values can be either <code>open</code> (for an outdoor pad) or <code>enclosed</code> (for an enclosed charging pad)</td>
+    <td>The type of charging pad. Accepted values can be either <code>open</code> (for an unprotected pad) or <code>enclosed</code> (for an enclosed charging pad)</td>
   </tr>
   <tr>
     <td>
@@ -185,7 +185,7 @@ const need = await drone.publishNeed(needParams);
 
 # Need filter
 
-Begin listening for incoming needs that match certain requirements. Typically this will be a charging station subscribing to incoming needs from electric drones.
+Begin listening for incoming needs that match certain requirements. Typically this will be a charging station subscribing to incoming needs from drones.
 
 ## Arguments
 
@@ -262,7 +262,7 @@ const needs = await charger.needsForType(needFilterParams);
 
 # Bid
 
-A bid to provide a charging service. Typically sent from a charger to an electric drone.
+A bid to provide a charging service. Typically sent from a charger to a drone.
 
 ## Arguments
 
@@ -284,19 +284,21 @@ needs.subscribe(need => {
       lat: 32.050382,
       long: 34.766149,
     },
-    locationName: 'Marine Programs Naval Science'
+    locationName: 'IKEA parking lot B'
     locationNameLang: 'eng'
-    locationCity: 'Vallejo',
-    locationPostalCode: '94590',
-    locationCounty: 'Solano',
-    locationState: 'CA',
+    locationStreet: 'King',
+    locationHouseNumber: '372',
+    locationCity: 'Charleston',
+    locationPostalCode: '29401',
+    locationCounty: 'Charleston',
+    locationState: 'SC',
     locationCountry: 'USA',
     availableFrom: Date.now(),
     availableUntil: Date.now() + 3600000,
     energySource: EnergySources.Hydro,
     amenities: [Amenities.Park],
-    provider: 'HoldenCharge',
-    manufacturer: 'Holden Tech LLC',
+    provider: 'MegaCharge',
+    manufacturer: 'Mega Tech LLC',
     model: 'MegaBolt',
   });
   const bid = await need.createBid(bidParams);
@@ -321,19 +323,21 @@ needs.subscribe((need: Need<NeedParams>) => {
       lat: 32.050382,
       long: 34.766149,
     },
-    locationName: 'Marine Programs Naval Science'
+    locationName: 'IKEA parking lot B'
     locationNameLang: 'eng'
-    locationCity: 'Vallejo',
-    locationPostalCode: '94590',
-    locationCounty: 'Solano',
-    locationState: 'CA',
+    locationStreet: 'King',
+    locationHouseNumber: '372',
+    locationCity: 'Charleston',
+    locationPostalCode: '29401',
+    locationCounty: 'Charleston',
+    locationState: 'SC',
     locationCountry: 'USA',
     availableFrom: Date.now(),
     availableUntil: Date.now() + 3600000,
     energySource: EnergySources.Hydro,
     amenities: [Amenities.Park],
-    provider: 'HoldenCharge',
-    manufacturer: 'Holden Tech LLC',
+    provider: 'MegaCharge',
+    manufacturer: 'Mega Tech LLC',
     model: 'MegaBolt',
   });
   const bid = await need.createBid(bidParams);
@@ -462,13 +466,6 @@ needs.subscribe((need: Need<NeedParams>) => {
     <td>A list of amenities that are present at this charger. Specified as an array of amenity ids. See <a href="#amenities">Amenities</a></td>
   </tr>
   <tr>
-    <td>
-      <code class="field">provider</code>
-      <div class="type">optional</div>
-    </td>
-    <td>Name of the service provider or charging network operating this charger</td>
-  </tr>
-  <tr>
       <td>
         <code class="field">plug_types</code>
         <div class="type required">required</div>
@@ -488,6 +485,13 @@ needs.subscribe((need: Need<NeedParams>) => {
       <div class="type">optional</div>
     </td>
     <td>Charging stations may also provide protection services for drones. This parameter specifies the level of protection given to a drone. See possible codes under <a href="#drone-protection-level">Drone Protection Level</a></td>
+  </tr>
+  <tr>
+    <td>
+      <code class="field">provider</code>
+      <div class="type">optional</div>
+    </td>
+    <td>Name of the service provider or charging network operating this charger</td>
   </tr>
   <tr>
     <td>

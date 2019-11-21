@@ -333,11 +333,11 @@
 <h1 id='drone-charging-protocol'>Drone Charging Protocol</h1>
 <p>The communication protocol for drone charging describes the format of a request for a charging service (<code>need</code>), and the response sent by a charging provider (<code>bid</code>).</p>
 
-<p>For example, an autonomous drone might search for charging stations within 2 km of the given coordinates that are capable of docking a 1200 kg drone.</p>
+<p>For example, a drone might search for charging stations within 2 km of its location that supports 2mm bullet connectors.</p>
 
-<p>In response, a charging station might send back a bid with a price for the service, the opening and closing times, and the full list of services it offers.</p>
+<p>In response, a charging station might send back a bid with a price per kWh, a time at which the service can be provided, and additional amenities provided (e.g., the ability for the drone to remain parked on the charger after charging completes).</p>
 <h1 id='need'>Need</h1>
-<p>A statement of need for charging services. Typically this will be sent by an drone that is looking for a charging station around certain coordinates.</p>
+<p>A statement of need for charging services. Typically this will be sent by a drone that is looking for a charging station around certain coordinates.</p>
 
 <p>This request is sent to the discovery engine which broadcasts the need to DAV identities that can provide this service. <a href="#bid">Bids</a> are later received in response.</p>
 <h2 id='arguments'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">SDKFactory</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js"</span><span class="p">);</span>
@@ -360,6 +360,7 @@
     <span class="na">width</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
     <span class="na">height</span><span class="p">:</span> <span class="mi">20</span>
   <span class="p">},</span>
+  <span class="na">plugTypes</span><span class="p">:</span> <span class="p">[</span><span class="nx">enums</span><span class="p">.</span><span class="nx">PlugTypes</span><span class="p">.</span><span class="nx">Bullet2mm</span><span class="p">],</span>
   <span class="na">weight</span><span class="p">:</span> <span class="mi">50000</span><span class="p">,</span>
   <span class="na">batteryCapacity</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
   <span class="na">currentBatteryCharge</span><span class="p">:</span> <span class="mi">45</span><span class="p">,</span>
@@ -387,6 +388,7 @@
     <span class="na">width</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
     <span class="na">height</span><span class="p">:</span> <span class="mi">20</span>
   <span class="p">},</span>
+  <span class="na">plugTypes</span><span class="p">:</span> <span class="p">[</span><span class="nx">enums</span><span class="p">.</span><span class="nx">PlugTypes</span><span class="p">.</span><span class="nx">Bullet2mm</span><span class="p">],</span>
   <span class="na">weight</span><span class="p">:</span> <span class="mi">50000</span><span class="p">,</span>
   <span class="na">batteryCapacity</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
   <span class="na">currentBatteryCharge</span><span class="p">:</span> <span class="mi">45</span><span class="p">,</span>
@@ -408,32 +410,32 @@
       <code class="field">radius</code>
       <div class="type required">required</div>
     </td>
-    <td>Radius in meters around the coordinates in which to listen for bids. Specified as an integer</td>
+    <td>Radius in meters around the coordinates in which to search for charging services. Specified as an integer</td>
   </tr>
   <tr>
     <td>
-      <code class="field">drone_type</code>
+      <code class="field">droneType</code>
       <div class="type">optional</div>
     </td>
     <td>The manufacturer and/or the model number of the drone. An unformatted string</td>
   </tr>
   <tr>
       <td>
-        <code class="field">plug_types</code>
+        <code class="field">plugTypes</code>
         <div class="type required">required</div>
       </td>
       <td>The drone's plug type ID. See <a href="#plug-types">Plug Types</a> for possible values</td>
     </tr>
   <tr>
     <td>
-      <code class="field">charge_pad_type</code>
+      <code class="field">chargePadType</code>
       <div class="type">optional</div>
     </td>
-    <td>The type of charging pad. Accepted values can be either <code>open</code> (for an outdoor pad) or <code>enclosed</code> (for an enclosed charging pad)</td>
+    <td>The type of charging pad. Accepted values can be either <code>open</code> (for an unprotected pad) or <code>enclosed</code> (for an enclosed charging pad)</td>
   </tr>
   <tr>
     <td>
-      <code class="field">droneport_protection_level</code>
+      <code class="field">droneProtectionLevel</code>
       <div class="type">optional</div>
     </td>
     <td>Charging stations may also provide protection services for drones. This parameter specifies the level of protection given to a drone. See possible codes under <a href="#drone-protection-level">Drone Protection Level</a></td>
@@ -489,7 +491,7 @@
   </tr>
 </table>
 <h1 id='need-filter'>Need filter</h1>
-<p>Begin listening for incoming needs that match certain requirements. Typically this will be a charging station subscribing to incoming needs from electric drones.</p>
+<p>Begin listening for incoming needs that match certain requirements. Typically this will be a charging station subscribing to incoming needs from drones.</p>
 <h2 id='arguments-2'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">SDKFactory</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js"</span><span class="p">);</span>
 <span class="kr">const</span> <span class="p">{</span> <span class="nx">NeedFilterParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"dav-js/dist/drone-charging"</span><span class="p">);</span>
 <span class="kr">const</span> <span class="nx">DAV</span> <span class="o">=</span> <span class="nx">SDKFactory</span><span class="p">({</span>
@@ -556,7 +558,7 @@
     <td>The maximum length, width, and height clearance that this charger can accomodate. Specified as an object containing integers representing centimeters</td>
 </table>
 <h1 id='bid'>Bid</h1>
-<p>A bid to provide a charging service. Typically sent from a charger to an electric drone.</p>
+<p>A bid to provide a charging service. Typically sent from a charger to a drone.</p>
 <h2 id='arguments-3'>Arguments</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="p">{</span> <span class="nx">BidParams</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'dav-js/dist/drone-charging'</span><span class="p">);</span>
 
 <span class="nx">needs</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="nx">need</span> <span class="o">=&gt;</span> <span class="p">{</span>
@@ -566,6 +568,7 @@
       <span class="s1">'15000000000000000000'</span><span class="p">,</span>
       <span class="p">{</span> <span class="na">amount</span><span class="p">:</span> <span class="s1">'1000000000000000000'</span><span class="p">,</span> <span class="na">type</span><span class="p">:</span> <span class="s1">'flat'</span><span class="p">,</span> <span class="na">description</span><span class="p">:</span> <span class="s1">'Tax'</span> <span class="p">},</span>
     <span class="p">],</span>
+    <span class="na">plugTypes</span><span class="p">:[</span><span class="nx">enums</span><span class="p">.</span><span class="nx">PlugTypes</span><span class="p">.</span><span class="nx">Bullet2mm</span><span class="p">],</span>
     <span class="na">entranceLocation</span><span class="p">:</span> <span class="p">{</span>
       <span class="na">lat</span><span class="p">:</span> <span class="mf">32.050382</span><span class="p">,</span>
       <span class="na">long</span><span class="p">:</span> <span class="mf">34.766149</span><span class="p">,</span>
@@ -574,19 +577,21 @@
       <span class="na">lat</span><span class="p">:</span> <span class="mf">32.050382</span><span class="p">,</span>
       <span class="na">long</span><span class="p">:</span> <span class="mf">34.766149</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="na">locationName</span><span class="p">:</span> <span class="s1">'Marine Programs Naval Science'</span>
+    <span class="na">locationName</span><span class="p">:</span> <span class="s1">'IKEA parking lot B'</span>
     <span class="na">locationNameLang</span><span class="p">:</span> <span class="s1">'eng'</span>
-    <span class="na">locationCity</span><span class="p">:</span> <span class="s1">'Vallejo'</span><span class="p">,</span>
-    <span class="na">locationPostalCode</span><span class="p">:</span> <span class="s1">'94590'</span><span class="p">,</span>
-    <span class="na">locationCounty</span><span class="p">:</span> <span class="s1">'Solano'</span><span class="p">,</span>
-    <span class="na">locationState</span><span class="p">:</span> <span class="s1">'CA'</span><span class="p">,</span>
+    <span class="na">locationStreet</span><span class="p">:</span> <span class="s1">'King'</span><span class="p">,</span>
+    <span class="na">locationHouseNumber</span><span class="p">:</span> <span class="s1">'372'</span><span class="p">,</span>
+    <span class="na">locationCity</span><span class="p">:</span> <span class="s1">'Charleston'</span><span class="p">,</span>
+    <span class="na">locationPostalCode</span><span class="p">:</span> <span class="s1">'29401'</span><span class="p">,</span>
+    <span class="na">locationCounty</span><span class="p">:</span> <span class="s1">'Charleston'</span><span class="p">,</span>
+    <span class="na">locationState</span><span class="p">:</span> <span class="s1">'SC'</span><span class="p">,</span>
     <span class="na">locationCountry</span><span class="p">:</span> <span class="s1">'USA'</span><span class="p">,</span>
     <span class="na">availableFrom</span><span class="p">:</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">(),</span>
     <span class="na">availableUntil</span><span class="p">:</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">+</span> <span class="mi">3600000</span><span class="p">,</span>
     <span class="na">energySource</span><span class="p">:</span> <span class="nx">EnergySources</span><span class="p">.</span><span class="nx">Hydro</span><span class="p">,</span>
     <span class="na">amenities</span><span class="p">:</span> <span class="p">[</span><span class="nx">Amenities</span><span class="p">.</span><span class="nx">Park</span><span class="p">],</span>
-    <span class="na">provider</span><span class="p">:</span> <span class="s1">'HoldenCharge'</span><span class="p">,</span>
-    <span class="na">manufacturer</span><span class="p">:</span> <span class="s1">'Holden Tech LLC'</span><span class="p">,</span>
+    <span class="na">provider</span><span class="p">:</span> <span class="s1">'MegaCharge'</span><span class="p">,</span>
+    <span class="na">manufacturer</span><span class="p">:</span> <span class="s1">'Mega Tech LLC'</span><span class="p">,</span>
     <span class="na">model</span><span class="p">:</span> <span class="s1">'MegaBolt'</span><span class="p">,</span>
   <span class="p">});</span>
   <span class="kr">const</span> <span class="nx">bid</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">need</span><span class="p">.</span><span class="nx">createBid</span><span class="p">(</span><span class="nx">bidParams</span><span class="p">);</span>
@@ -600,6 +605,7 @@
       <span class="s1">'15000000000000000000'</span><span class="p">,</span>
       <span class="p">{</span> <span class="na">amount</span><span class="p">:</span> <span class="s1">'1000000000000000000'</span><span class="p">,</span> <span class="na">type</span><span class="p">:</span> <span class="s1">'flat'</span><span class="p">,</span> <span class="na">description</span><span class="p">:</span> <span class="s1">'Tax'</span> <span class="p">},</span>
     <span class="p">],</span>
+    <span class="na">plugTypes</span><span class="p">:[</span><span class="nx">enums</span><span class="p">.</span><span class="nx">PlugTypes</span><span class="p">.</span><span class="nx">Bullet2mm</span><span class="p">],</span>
     <span class="na">entranceLocation</span><span class="p">:</span> <span class="p">{</span>
       <span class="na">lat</span><span class="p">:</span> <span class="mf">32.050382</span><span class="p">,</span>
       <span class="na">long</span><span class="p">:</span> <span class="mf">34.766149</span><span class="p">,</span>
@@ -608,19 +614,21 @@
       <span class="na">lat</span><span class="p">:</span> <span class="mf">32.050382</span><span class="p">,</span>
       <span class="na">long</span><span class="p">:</span> <span class="mf">34.766149</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="na">locationName</span><span class="p">:</span> <span class="s1">'Marine Programs Naval Science'</span>
+    <span class="na">locationName</span><span class="p">:</span> <span class="s1">'IKEA parking lot B'</span>
     <span class="na">locationNameLang</span><span class="p">:</span> <span class="s1">'eng'</span>
-    <span class="na">locationCity</span><span class="p">:</span> <span class="s1">'Vallejo'</span><span class="p">,</span>
-    <span class="na">locationPostalCode</span><span class="p">:</span> <span class="s1">'94590'</span><span class="p">,</span>
-    <span class="na">locationCounty</span><span class="p">:</span> <span class="s1">'Solano'</span><span class="p">,</span>
-    <span class="na">locationState</span><span class="p">:</span> <span class="s1">'CA'</span><span class="p">,</span>
+    <span class="na">locationStreet</span><span class="p">:</span> <span class="s1">'King'</span><span class="p">,</span>
+    <span class="na">locationHouseNumber</span><span class="p">:</span> <span class="s1">'372'</span><span class="p">,</span>
+    <span class="na">locationCity</span><span class="p">:</span> <span class="s1">'Charleston'</span><span class="p">,</span>
+    <span class="na">locationPostalCode</span><span class="p">:</span> <span class="s1">'29401'</span><span class="p">,</span>
+    <span class="na">locationCounty</span><span class="p">:</span> <span class="s1">'Charleston'</span><span class="p">,</span>
+    <span class="na">locationState</span><span class="p">:</span> <span class="s1">'SC'</span><span class="p">,</span>
     <span class="na">locationCountry</span><span class="p">:</span> <span class="s1">'USA'</span><span class="p">,</span>
     <span class="na">availableFrom</span><span class="p">:</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">(),</span>
     <span class="na">availableUntil</span><span class="p">:</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">+</span> <span class="mi">3600000</span><span class="p">,</span>
     <span class="na">energySource</span><span class="p">:</span> <span class="nx">EnergySources</span><span class="p">.</span><span class="nx">Hydro</span><span class="p">,</span>
     <span class="na">amenities</span><span class="p">:</span> <span class="p">[</span><span class="nx">Amenities</span><span class="p">.</span><span class="nx">Park</span><span class="p">],</span>
-    <span class="na">provider</span><span class="p">:</span> <span class="s1">'HoldenCharge'</span><span class="p">,</span>
-    <span class="na">manufacturer</span><span class="p">:</span> <span class="s1">'Holden Tech LLC'</span><span class="p">,</span>
+    <span class="na">provider</span><span class="p">:</span> <span class="s1">'MegaCharge'</span><span class="p">,</span>
+    <span class="na">manufacturer</span><span class="p">:</span> <span class="s1">'Mega Tech LLC'</span><span class="p">,</span>
     <span class="na">model</span><span class="p">:</span> <span class="s1">'MegaBolt'</span><span class="p">,</span>
   <span class="p">});</span>
   <span class="kd">const</span> <span class="nx">bid</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">need</span><span class="p">.</span><span class="nx">createBid</span><span class="p">(</span><span class="nx">bidParams</span><span class="p">);</span>
@@ -748,32 +756,32 @@
     <td>A list of amenities that are present at this charger. Specified as an array of amenity ids. See <a href="#amenities">Amenities</a></td>
   </tr>
   <tr>
-    <td>
-      <code class="field">provider</code>
-      <div class="type">optional</div>
-    </td>
-    <td>Name of the service provider or charging network operating this charger</td>
-  </tr>
-  <tr>
       <td>
-        <code class="field">plug_types</code>
+        <code class="field">plugTypes</code>
         <div class="type required">required</div>
       </td>
       <td>The drone's plug type ID. See <a href="#plug-types">Plug Types</a> for possible values</td>
     </tr>
   <tr>
     <td>
-      <code class="field">charge_pad_type</code>
+      <code class="field">chargePadType</code>
       <div class="type">optional</div>
     </td>
     <td>The type of charging pad. Accepted values can be either <code>open</code> (for an outdoor pad) or <code>enclosed</code> (for an enclosed charging pad)</td>
   </tr>
   <tr>
     <td>
-      <code class="field">droneport_protection_level</code>
+      <code class="field">droneProtectionLevel</code>
       <div class="type">optional</div>
     </td>
     <td>Charging stations may also provide protection services for drones. This parameter specifies the level of protection given to a drone. See possible codes under <a href="#drone-protection-level">Drone Protection Level</a></td>
+  </tr>
+  <tr>
+    <td>
+      <code class="field">provider</code>
+      <div class="type">optional</div>
+    </td>
+    <td>Name of the service provider or charging network operating this charger</td>
   </tr>
   <tr>
     <td>
@@ -1134,35 +1142,7 @@
   </tr>
   <tr>
     <td><code>1</code></td>
-    <td>Lodging</td>
-  </tr>
-  <tr>
-    <td><code>2</code></td>
-    <td>Dining</td>
-  </tr>
-  <tr>
-    <td><code>3</code></td>
-    <td>Restrooms</td>
-  </tr>
-  <tr>
-    <td><code>4</code></td>
-    <td>Docking</td>
-  </tr>
-  <tr>
-    <td><code>5</code></td>
-    <td>Park</td>
-  </tr>
-  <tr>
-    <td><code>6</code></td>
-    <td>WiFi</td>
-  </tr>
-  <tr>
-    <td><code>7</code></td>
-    <td>Shopping</td>
-  </tr>
-  <tr>
-    <td><code>8</code></td>
-    <td>Grocery</td>
+    <td>Parking</td>
   </tr>
 </table>
 <h1 id='price-types'>Price Types</h1>

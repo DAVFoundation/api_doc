@@ -50,6 +50,7 @@ const needParams = new NeedParams({
     width: 15,
     height: 20
   },
+  plugTypes: [enums.PlugTypes.Bullet2mm],
   weight: 50000,
   batteryCapacity: 4,
   currentBatteryCharge: 45,
@@ -80,6 +81,7 @@ const needParams = new NeedParams({
     width: 15,
     height: 20
   },
+  plugTypes: [enums.PlugTypes.Bullet2mm],
   weight: 50000,
   batteryCapacity: 4,
   currentBatteryCharge: 45,
@@ -106,28 +108,28 @@ const need = await drone.publishNeed(needParams);
   </tr>
   <tr>
     <td>
-      <code class="field">drone_type</code>
+      <code class="field">droneType</code>
       <div class="type">optional</div>
     </td>
     <td>The manufacturer and/or the model number of the drone. An unformatted string</td>
   </tr>
   <tr>
       <td>
-        <code class="field">plug_types</code>
+        <code class="field">plugTypes</code>
         <div class="type required">required</div>
       </td>
       <td>The drone's plug type ID. See <a href="#plug-types">Plug Types</a> for possible values</td>
     </tr>
   <tr>
     <td>
-      <code class="field">charge_pad_type</code>
+      <code class="field">chargePadType</code>
       <div class="type">optional</div>
     </td>
     <td>The type of charging pad. Accepted values can be either <code>open</code> (for an unprotected pad) or <code>enclosed</code> (for an enclosed charging pad)</td>
   </tr>
   <tr>
     <td>
-      <code class="field">droneport_protection_level</code>
+      <code class="field">droneProtectionLevel</code>
       <div class="type">optional</div>
     </td>
     <td>Charging stations may also provide protection services for drones. This parameter specifies the level of protection given to a drone. See possible codes under <a href="#drone-protection-level">Drone Protection Level</a></td>
@@ -276,6 +278,7 @@ needs.subscribe(need => {
       '15000000000000000000',
       { amount: '1000000000000000000', type: 'flat', description: 'Tax' },
     ],
+    plugTypes:[enums.PlugTypes.Bullet2mm],
     entranceLocation: {
       lat: 32.050382,
       long: 34.766149,
@@ -315,6 +318,7 @@ needs.subscribe((need: Need<NeedParams>) => {
       '15000000000000000000',
       { amount: '1000000000000000000', type: 'flat', description: 'Tax' },
     ],
+    plugTypes:[enums.PlugTypes.Bullet2mm],
     entranceLocation: {
       lat: 32.050382,
       long: 34.766149,
@@ -467,21 +471,21 @@ needs.subscribe((need: Need<NeedParams>) => {
   </tr>
   <tr>
       <td>
-        <code class="field">plug_types</code>
+        <code class="field">plugTypes</code>
         <div class="type required">required</div>
       </td>
       <td>The drone's plug type ID. See <a href="#plug-types">Plug Types</a> for possible values</td>
     </tr>
   <tr>
     <td>
-      <code class="field">charge_pad_type</code>
+      <code class="field">chargePadType</code>
       <div class="type">optional</div>
     </td>
     <td>The type of charging pad. Accepted values can be either <code>open</code> (for an outdoor pad) or <code>enclosed</code> (for an enclosed charging pad)</td>
   </tr>
   <tr>
     <td>
-      <code class="field">droneport_protection_level</code>
+      <code class="field">droneProtectionLevel</code>
       <div class="type">optional</div>
     </td>
     <td>Charging stations may also provide protection services for drones. This parameter specifies the level of protection given to a drone. See possible codes under <a href="#drone-protection-level">Drone Protection Level</a></td>
@@ -930,35 +934,7 @@ A list of amenities can be included in both requests and responses.
   </tr>
   <tr>
     <td><code>1</code></td>
-    <td>Lodging</td>
-  </tr>
-  <tr>
-    <td><code>2</code></td>
-    <td>Dining</td>
-  </tr>
-  <tr>
-    <td><code>3</code></td>
-    <td>Restrooms</td>
-  </tr>
-  <tr>
-    <td><code>4</code></td>
-    <td>Docking</td>
-  </tr>
-  <tr>
-    <td><code>5</code></td>
-    <td>Park</td>
-  </tr>
-  <tr>
-    <td><code>6</code></td>
-    <td>WiFi</td>
-  </tr>
-  <tr>
-    <td><code>7</code></td>
-    <td>Shopping</td>
-  </tr>
-  <tr>
-    <td><code>8</code></td>
-    <td>Grocery</td>
+    <td>Parking</td>
   </tr>
 </table>
 
